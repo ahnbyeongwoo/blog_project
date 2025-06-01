@@ -1,16 +1,17 @@
-<template><!--회원가입-->
+<template>
+  <!--회원가입-->
   <div class="container">
     <router-link to="/" class="blogTitle">BlogProject</router-link>
     <div class="signup-container">
       <h2>회원가입</h2>
-      <form @submit.prevent="submitForm" id="signup-form"><!--회원가입 폼 컨테이너-->
+      <form @submit.prevent="submitForm" id="signup-form">
         <div>
           <label for="name">닉네임</label>
           <input type="text" id="name" v-model="name" placeholder="사용하실 닉네임을 입력하세요." />
         </div>
         <div>
-          <label for="id">아이디</label>
-          <input type="text" id="email" v-model="email" placeholder="사용하실 아이디를 입력하세요." />
+          <label for="email">이메일</label>
+          <input type="text" id="email" v-model="email" placeholder="사용하실 이메일을 입력하세요." />
         </div>
         <div>
           <label for="password">비밀번호</label>
@@ -40,24 +41,24 @@ export default {
     };
   },
   methods: {
-    submitForm() {// 비밀번호 확인 검증
+    submitForm() {
       if (this.password !== this.passwordConfirm) {
         alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
         return;
       }
-      const userData = {// 서버로 전송할 데이터 준비
+      // email, name, password 순서로 데이터 전송
+      const userData = {
+        email: this.email,
         name: this.name,
-        id: this.email, // name 대신 이메일을 아이디로 사용
         password: this.password,
       };
 
-      axios.post(`${process.env.VUE_APP_API_URL}/signup`, userData)// Axios로 서버에 POST 요청 보내기
-        .then((response) => {// 서버 응답이 성공일 경우 처리
+      axios.post(`${process.env.VUE_APP_API_URL}/signup`, userData)
+        .then((response) => {
           alert(response.data.message);
-          this.$router.push('/'); // 메인 페이지로 이동
+          this.$router.push('/');
         })
         .catch((error) => {
-          // 서버 응답이 실패일 경우 처리
           console.error('회원가입 오류:', error);
           alert('회원가입에 실패했습니다. 다시 시도해주세요.');
         });
