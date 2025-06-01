@@ -43,7 +43,7 @@ export default {
         password: this.password,
       };
 
-      axios.post('http://localhost:3000/login', loginData)
+      axios.post(`${process.env.VUE_APP_API_URL}/login`, loginData)
         .then(response => {
           alert(response.data.message);
           if (response.data.user) {// 로그인 성공 시 사용자 정보 저장

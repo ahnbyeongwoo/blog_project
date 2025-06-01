@@ -56,7 +56,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/detail/${postId}`
+          `${process.env.VUE_APP_API_URL}/detail/${postId}`
         );
         const post = response.data.post;//서버에서 반환된 게시글 데이터
         this.title = post.title;
@@ -83,7 +83,7 @@ export default {
 
       try {
         const response = await axios.put(
-          `http://localhost:3000/detail/${this.postId}`,// 수정할 게시글의 API 엔드포인트
+          `${process.env.VUE_APP_API_URL}/detail/${this.postId}`,// 수정할 게시글의 API 엔드포인트
           {
             title: this.title,
             content: this.content,

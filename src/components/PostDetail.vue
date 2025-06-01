@@ -61,7 +61,7 @@
 <script>
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = `${process.env.VUE_APP_API_URL}`;
 
 export default {
   props: {
@@ -141,7 +141,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/detail/${postId}`
+          `${process.env.VUE_APP_API_URL}/detail/${postId}`
         );
         this.post = response.data.post;//게시글 데이터 저장
 
@@ -158,7 +158,7 @@ export default {
     async fetchComments() {//댓글 데이터 로드 메서드
       try {
         const response = await axios.get(
-          `http://localhost:3000/comments/${this.$route.params.id}`
+          `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`
         );
 
         // 댓글 목록 초기화 후 서버 데이터 추가
@@ -197,7 +197,7 @@ export default {
           throw new Error("사용자 정보가 없습니다.");
         }
         const response = await axios.post(// 서버에 댓글 작성 요청
-          `http://localhost:3000/comments/${this.$route.params.id}`,//게시글 ID를 전달
+          `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`,//게시글 ID를 전달
           {
             postId: this.$route.params.id,
             content: this.newComment,
@@ -233,7 +233,7 @@ export default {
         }
         const currentUserEmail = storedUser.email;
 
-        await axios.delete(`http://localhost:3000/comments/${commentId}`, {//서버에서 댓글 삭제 요청 보내기
+        await axios.delete(`${process.env.VUE_APP_API_URL}/comments/${commentId}`, {//서버에서 댓글 삭제 요청 보내기
           headers: {
             Authorization: `Bearer ${token}`,
             "current-user": currentUserEmail,
@@ -250,7 +250,7 @@ export default {
 
     async incrementViewCount(postId) {//조회수 증가 메서드
       try {
-        await axios.put(`http://localhost:3000/detail/${postId}/views`);
+        await axios.put(`${process.env.VUE_APP_API_URL}/detail/${postId}/views`);
       } catch (error) {
         console.error(
           "조회수 증가 에러 발생:",
@@ -288,7 +288,7 @@ export default {
           console.log(currentUserEmail);
           console.log("storedUserEmail: ", storedUser.email);
 
-          await axios.delete(`http://localhost:3000/detail/${this.post.id}`, {
+          await axios.delete(`${process.env.VUE_APP_API_URL}/detail/${this.post.id}`, {
             headers: {
               "current-user": currentUserEmail,
             },

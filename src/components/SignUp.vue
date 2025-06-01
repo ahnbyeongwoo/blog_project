@@ -51,7 +51,7 @@ export default {
         password: this.password,
       };
 
-      axios.post('http://localhost:3000/signup', userData)// Axios로 서버에 POST 요청 보내기
+      axios.post(`${process.env.VUE_APP_API_URL}/signup`, userData)// Axios로 서버에 POST 요청 보내기
         .then((response) => {// 서버 응답이 성공일 경우 처리
           alert(response.data.message);
           this.$router.push('/'); // 메인 페이지로 이동

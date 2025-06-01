@@ -57,7 +57,7 @@ export default {
   },
 
   mounted(){
-    fetch('http://localhost:3000/list')//서버에서 데이터 가져오기
+    fetch(`${process.env.VUE_APP_API_URL}/list`)//서버에서 데이터 가져오기
     .then(response => response.json())
     .then(data => {
       this.posts = data.sort((a, b) => b.views - a.views);//조회수 내림차순

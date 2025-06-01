@@ -68,7 +68,7 @@ export default {
       };
 
       axios//서버에 게시글 데이터 전송 post 요청
-        .post('http://localhost:3000/create', newPost)
+        .post(`${process.env.VUE_APP_API_URL}/create`, newPost)
         .then(() => {
           this.$router.push("/list");//성공 시 게시글 목록 이동
         })

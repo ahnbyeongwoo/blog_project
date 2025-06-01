@@ -101,7 +101,7 @@ export default {
           ? JSON.parse(currentUserData).email
           : null;
 
-        const response = await axios.get("http://localhost:3000/list", {
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/list`, {
           params: {
             myPostsOnly: this.filterMyPosts ? "true" : "false",
             currentUserEmail: currentUser,
@@ -125,7 +125,7 @@ export default {
       }
 
       try {
-        const response = await axios.get("http://localhost:3000/api/search", {
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/api/search`, {
           params: {
             type: this.searchType,//검색 타입(제목 또는 작성자)
             keyword: this.searchKeyword.trim(),
