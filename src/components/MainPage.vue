@@ -119,7 +119,7 @@ export default {
   padding: 15px;
   border: 2px solid #ddd; /* 전체 컨테이너 테두리 */
   border-radius: 10px; /* 둥근 모서리 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
   max-width: 1200px;
   background-color: #f4f4f4; /* 회색 배경 */
 }
@@ -147,7 +147,7 @@ export default {
   flex: 1;
   text-align: center;
   margin: 0;
-  font-size: 24px;
+  font-size: 24px;/*폰트 사이즈 24고정 */
 }
 
 .header-buttons {
