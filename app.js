@@ -39,7 +39,9 @@ pool.query("SELECT NOW()", (err, res) => {
     console.log("PostgreSQL 연결 테스트 성공:");
   }
 });
-
+app.get('/', (req, res) => {
+  res.status(200).send('Backend is running!');
+});
 // 회원가입 API
 app.post("/signup", async (req, res) => {
   const { name, id, password } = req.body;
