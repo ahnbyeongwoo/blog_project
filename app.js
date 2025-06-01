@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Backend is running!');
 });
 // 회원가입 API
-app.post("/signup", async (req, res) => {
+app.post(`${process.env.VUE_APP_API_URL}/signup`, async (req, res) => {
   const { name, id, password } = req.body;
   try {
     await pool.query(
