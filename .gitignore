@@ -1,0 +1,10 @@
+# Ignore node_modules in all directories
+**/node_modules/
+
+# Ignore specific files
+app.js
+package-lock.json
+package.json
+
+# Ignore temporary or backup files
+*.save
