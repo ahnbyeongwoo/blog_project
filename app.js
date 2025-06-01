@@ -43,26 +43,25 @@ app.get('/', (req, res) => {
   res.status(200).send('Backend is running!');
 });
 // 회원가입 API
-app.post(`${process.env.VUE_APP_API_URL}/signup`, async (req, res) => {
-  const { name, id, password } = req.body;
+app.post("/signup", async (req, res) => {
+  const { email, name, password } = req.body;
+  const query = "INSERT INTO users (email, name, password) VALUES ($1, $2, $3)";
   try {
-    await pool.query(
-      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3)",
-      [name, id, password]
-    );
+    await pool.query(query, [email, name, password]);
     res.status(201).json({ message: "회원가입 성공!" });
   } catch (err) {
+    console.error("회원가입 실패:", err);
     res.status(500).json({ message: "회원가입 실패", error: err });
   }
 });
 
 // 로그인 API
 app.post("/login", async (req, res) => {
-  const { id, password } = req.body;
+  const { email, password } = req.body;
   try {
     const result = await pool.query(
       "SELECT * FROM users WHERE email = $1 AND password = $2",
-      [id, password]
+      [email, password]
     );
     if (result.rows.length > 0) {
       res.status(200).json({ message: "로그인 성공!", user: result.rows[0] });
