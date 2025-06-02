@@ -39,7 +39,7 @@ export default {
     },
     login() {// 로그인 요청
       const loginData = {
-        id: this.email,
+        email: this.email,
         password: this.password,
       };
 
