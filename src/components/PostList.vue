@@ -1,21 +1,20 @@
 <template>
   <div class="thinknote-list-wrap">
     <header class="list-header">
-      <h1 class="logo" @click="goToHome">thinknote</h1>
+      <router-link to="/" class="logo" @click="goToHome">thinknote</router-link>
     </header>
     <main>
       <div class="list-controls">
         <div class="my-posts-checkbox">
-          <input type="checkbox" v-model="showMyPosts" id="myPosts" />
+          <input type="checkbox" v-model="filterMyPosts" id="myPosts" @change="reloadPosts" />
           <label for="myPosts">내가 쓴 글</label>
         </div>
         <div class="search-bar">
           <select v-model="searchType">
             <option value="title">제목</option>
-            <option value="content">내용</option>
-            <!-- 필요시 옵션 추가 -->
+            <option value="author">작성자</option>
           </select>
-          <input v-model="searchQuery" placeholder="검색어를 입력하세요" @keyup.enter="searchPosts" />
+          <input v-model="searchKeyword" placeholder="검색어를 입력하세요" @keyup.enter="searchPosts" />
           <button @click="searchPosts">검색</button>
         </div>
         <button class="write-btn" @click="goToCreatePage">글작성</button>
@@ -36,7 +35,6 @@
           <div class="post-list-title">{{ post.title }}</div>
           <div class="post-list-content" v-html="post.content"></div>
         </div>
-        <!-- 게시글이 없을 때 안내 메시지 -->
         <div v-if="paginatedPosts.length === 0" class="no-posts">
           게시글이 없습니다.
         </div>
@@ -52,50 +50,73 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      posts: [], // 전체 게시글
+      posts: [],
+      filterMyPosts: false,
       searchType: "title",
-      searchQuery: "",
-      showMyPosts: false,
+      searchKeyword: "",
       currentPage: 1,
       pageSize: 10,
-      currentUserId: localStorage.getItem("currentUserId"),
+      currentUser: null,
     };
   },
   computed: {
-    filteredPosts() {
-      let filtered = this.posts;
-      if (this.showMyPosts && this.currentUserId) {
-        filtered = filtered.filter(post => post.userId == this.currentUserId);
-      }
-      if (this.searchQuery.trim()) {
-        const q = this.searchQuery.trim().toLowerCase();
-        if (this.searchType === "title") {
-          filtered = filtered.filter(post => post.title.toLowerCase().includes(q));
-        } else if (this.searchType === "content") {
-          filtered = filtered.filter(post => post.content.toLowerCase().includes(q));
-        }
-      }
-      return filtered;
-    },
     totalPages() {
-      return Math.max(1, Math.ceil(this.filteredPosts.length / this.pageSize));
+      return Math.max(1, Math.ceil(this.posts.length / this.pageSize));
     },
     paginatedPosts() {
       const start = (this.currentPage - 1) * this.pageSize;
-      return this.filteredPosts.slice(start, start + this.pageSize);
-    }
+      return this.posts.slice(start, start + this.pageSize);
+    },
   },
   mounted() {
-    // 실제 API로 교체
-    fetch(`${process.env.VUE_APP_API_URL}/list`)
-      .then(res => res.json())
-      .then(data => { this.posts = data; })
-      .catch(err => console.error(err));
+    const currentUserData = localStorage.getItem("currentUser");
+    this.currentUser = currentUserData ? JSON.parse(currentUserData) : null;
+    this.reloadPosts();
   },
   methods: {
+    async reloadPosts() {
+      try {
+        const currentUserEmail = this.currentUser ? this.currentUser.email : null;
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/list`, {
+          params: {
+            myPostsOnly: this.filterMyPosts ? "true" : "false",
+            currentUserEmail,
+          },
+        });
+        this.posts = response.data.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
+        this.currentPage = 1;
+      } catch (error) {
+        console.error("게시물 불러오기 중 오류 발생:", error);
+      }
+    },
+    async searchPosts() {
+      if (!this.searchKeyword.trim()) {
+        alert("검색어를 입력해주세요.");
+        return;
+      }
+      try {
+        const currentUserEmail = this.currentUser ? this.currentUser.email : null;
+        const response = await axios.get(`${process.env.VUE_APP_API_URL}/api/search`, {
+          params: {
+            type: this.searchType,
+            keyword: this.searchKeyword.trim(),
+            myPostsOnly: this.filterMyPosts ? "true" : "false",
+            currentUserEmail,
+          },
+        });
+        this.posts = response.data;
+        this.currentPage = 1;
+      } catch (error) {
+        console.error("검색 실패:", error.response?.data?.message || error.message);
+        alert("검색 중 오류가 발생했습니다.");
+      }
+    },
     formatDate(dateString) {
       const date = new Date(dateString);
       return date.toLocaleDateString("ko-KR", {
@@ -105,10 +126,6 @@ export default {
     },
     goToDetail(id) { this.$router.push(`/detail/${id}`); },
     goToCreatePage() { this.$router.push("/create"); },
-    goToHome() { this.$router.push("/list"); },
-    searchPosts() {
-      this.currentPage = 1; // 검색시 첫 페이지로 이동
-    },
     prevPage() {
       if (this.currentPage > 1) this.currentPage--;
     },
@@ -134,12 +151,13 @@ export default {
   background: #fff;
 }
 .logo {
-  font-size: 1.5rem;
+  font-size: 28px;
   font-weight: 700;
-  color: #222;
-  margin-left: 56px;
+  color: #234567;
+  letter-spacing: -1px;
   cursor: pointer;
-  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
 }
 main {
   max-width: 800px;
@@ -252,7 +270,6 @@ main {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 .no-posts {
