@@ -9,11 +9,17 @@
       </div>
     </header>
 
+    <!-- 목록 버튼 추가 -->
+    <nav class="nav-bar">
+      <button class="nav-button" @click="goToPostList">📄 전체 글 목록 보기</button>
+    </nav>
+
     <main class="post-grid">
       <div
         v-for="post in sortedPost"
         :key="post.id"
         class="post-card"
+        @click="goToDetail(post.id)"
       >
         <h2 class="post-title">{{ post.title }}</h2>
         <div class="post-meta">
@@ -74,6 +80,9 @@ export default {
     goToPostList() {
       this.$router.push("/list");
     },
+    goToDetail(id) {
+      this.$router.push(`/detail/${id}`);
+    },
     formatDate(dateString) {
       const date = new Date(dateString);
       return date.toLocaleDateString("ko-KR", {
@@ -102,7 +111,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border-bottom: 1px solid #ccc;
   padding-bottom: 15px;
 }
@@ -128,6 +137,23 @@ export default {
   background-color: #004494;
 }
 
+/* nav */
+.nav-bar {
+  margin-bottom: 20px;
+}
+.nav-button {
+  background-color: #6c757d;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.nav-button:hover {
+  background-color: #5a6268;
+}
+
 .post-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
@@ -140,6 +166,7 @@ export default {
   border-radius: 16px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease-in-out;
+  cursor: pointer;
 }
 .post-card:hover {
   transform: translateY(-4px);
