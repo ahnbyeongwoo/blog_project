@@ -325,11 +325,13 @@ export default {
 
 
 <style scoped>
+
 .thinknote-detail-wrap {
   background: #fff;
   min-height: 100vh;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
+
 .thinknote-detail-header {
   width: 100%;
   border-bottom: 1px solid #eee;
@@ -339,6 +341,7 @@ export default {
   justify-content: space-between;
   background: #fff;
 }
+
 .logo {
   font-size: 28px;
   font-weight: 700;
@@ -348,6 +351,39 @@ export default {
   display: flex;
   align-items: center;
 }
+
+.detail-nav {
+  display: flex;
+  gap: 28px;
+  font-size: 1rem;
+  color: #444;
+  margin-right: 56px;
+  align-items: center;
+}
+
+.detail-nav span {
+  cursor: pointer;
+  opacity: 0.85;
+  font-weight: 500;
+  transition: opacity 0.18s;
+}
+
+.detail-nav span:hover {
+  opacity: 1;
+  color: #111;
+}
+
+.search-icon {
+  font-size: 1.15rem;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+}
+
 .detail-article {
   background: #fff;
   max-width: 700px;
@@ -360,6 +396,7 @@ export default {
   border-radius: 0;
   box-shadow: none;
 }
+
 .detail-meta {
   color: #888;
   font-size: 1rem;
@@ -369,6 +406,7 @@ export default {
   font-weight: 400;
   letter-spacing: -0.5px;
 }
+
 .detail-title {
   font-size: 2.2rem;
   font-weight: 800;
@@ -379,19 +417,22 @@ export default {
   line-height: 1.3;
   letter-spacing: -1px;
 }
+
 .detail-img-wrap {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 36px;
 }
+
 .detail-img {
   max-width: 480px;
   width: 100%;
   border-radius: 12px;
   object-fit: cover;
-  box-shadow: 0 2px 16px rgba(60,80,100,0.08);
+  box-shadow: 0 2px 16px rgba(60, 80, 100, 0.08);
 }
+
 .detail-content {
   width: 100%;
   font-size: 1.13rem;
@@ -401,6 +442,7 @@ export default {
   word-break: break-all;
   letter-spacing: -0.2px;
 }
+
 .detail-actions {
   display: flex;
   gap: 10px;
@@ -408,6 +450,7 @@ export default {
   justify-content: flex-end;
   width: 100%;
 }
+
 .edit-btn,
 .delete-btn {
   padding: 7px 18px;
@@ -417,20 +460,25 @@ export default {
   font-weight: 600;
   cursor: pointer;
 }
+
 .edit-btn {
   background: #234567;
   color: #fff;
 }
+
 .edit-btn:hover {
   background: #18314c;
 }
+
 .delete-btn {
   background: #e25555;
   color: #fff;
 }
+
 .delete-btn:hover {
   background: #b22222;
 }
+
 .comments-section {
   background: #fff;
   max-width: 700px;
@@ -440,18 +488,21 @@ export default {
   border-top: 1px solid #eee;
   padding: 34px 0 0 0;
 }
+
 .comments-section h3 {
   font-size: 1.12rem;
   font-weight: 700;
   color: #222;
   margin-bottom: 18px;
 }
+
 .comment-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 18px;
 }
+
 .comment-form textarea {
   resize: none;
   border: 1.5px solid #eceef1;
@@ -461,6 +512,7 @@ export default {
   min-height: 60px;
   background: #f7f8fa;
 }
+
 .comment-form button {
   align-self: flex-end;
   background: #222;
@@ -472,20 +524,24 @@ export default {
   font-weight: 600;
   cursor: pointer;
 }
+
 .comment-form button:hover {
   background: #444;
 }
+
 .comments-list {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
+
 .comment-item {
   background: #f7f8fa;
   border-radius: 10px;
   padding: 14px 16px;
-  box-shadow: 0 1px 4px rgba(60,80,100,0.05);
+  box-shadow: 0 1px 4px rgba(60, 80, 100, 0.05);
 }
+
 .comment-footer {
   display: flex;
   align-items: center;
@@ -493,6 +549,7 @@ export default {
   font-size: 13px;
   color: #7a869a;
 }
+
 .like-button {
   background: none;
   border: none;
@@ -504,9 +561,11 @@ export default {
   gap: 2px;
   transition: color 0.15s;
 }
+
 .like-button:hover {
   color: #b22222;
 }
+
 .delete-icon {
   width: 18px;
   height: 18px;
@@ -514,17 +573,22 @@ export default {
   margin-left: 6px;
   vertical-align: middle;
 }
+
 @media (max-width: 900px) {
   .thinknote-detail-header {
     flex-direction: column;
     align-items: flex-start;
     padding: 18px 0 10px 0;
   }
-  .logo, .detail-nav {
+
+  .logo,
+  .detail-nav {
     margin-left: 18px;
     margin-right: 0;
   }
-  .detail-article, .comments-section {
+
+  .detail-article,
+  .comments-section {
     max-width: 99vw;
     padding: 0 6vw;
   }
