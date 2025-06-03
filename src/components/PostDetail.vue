@@ -1,7 +1,8 @@
 <template><!--글 상세-->
   <div class="thinknote-detail-wrap">
     <header class="thinknote-detail-header">
-      <h1 class="logo" @click="goToHome">thinknote</h1>
+      <!-- <h1 class="logo" @click="goToHome">thinknote</h1> -->
+      <router-link to="/" class="logo" @click="goToHome">thinknote</router-link>
     </header>
     <main>
       <article class="detail-article">
