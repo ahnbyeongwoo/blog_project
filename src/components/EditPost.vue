@@ -140,11 +140,14 @@ export default {
   background: #fff;
 }
 .logo {
-  font-size: 1.5rem;
+  font-size: 28px;
   font-weight: 700;
   color: #234567;
-  margin-left: 56px;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
 .logout-btn {
   margin-right: 56px;

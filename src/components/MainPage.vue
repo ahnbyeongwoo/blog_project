@@ -212,15 +212,4 @@ export default {
   -webkit-box-orient: vertical;
 }
 
-/* 반응형 */
-@media (max-width: 900px) {
-  .post-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 0 12px;
-  }
-  .thinknote-header, .nav-bar {
-    padding: 0 12px;
-  }
-}
 </style>

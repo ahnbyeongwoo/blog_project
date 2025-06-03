@@ -59,7 +59,7 @@ export default {
       searchType: "title",
       searchKeyword: "",
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 7,
       currentUser: null,
     };
   },
@@ -159,7 +159,6 @@ export default {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: #234567;
 }
 
 main {

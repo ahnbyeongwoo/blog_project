@@ -12,7 +12,7 @@
           <span v-if="post.name">/ {{ post.name }}</span>
         </div>
         <h2 class="detail-title">{{ post.title }}</h2>
-        
+
         <div class="detail-actions" v-if="isMyPost">
         <button class="edit-btn" @click="editPost">수정</button>
         <button class="delete-btn" @click="deletePost">삭제</button>
@@ -353,6 +353,7 @@ export default {
   cursor: pointer;
   display: flex;
   align-items: center;
+  text-decoration: none;
 }
 
 .detail-nav {
