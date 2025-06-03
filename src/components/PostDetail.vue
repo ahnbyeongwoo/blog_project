@@ -327,12 +327,13 @@ export default {
   background: #fff;
 }
 .logo {
-  font-size: 1.5rem;
+  font-size: 28px;
   font-weight: 700;
-  color: #222;
-  margin-left: 56px;
+  color: #234567;
+  letter-spacing: -1px;
   cursor: pointer;
-  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
 }
 .detail-nav {
   display: flex;

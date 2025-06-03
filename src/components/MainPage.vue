@@ -1,7 +1,7 @@
 <template>
   <div class="thinknote-container">
     <header class="thinknote-header">
-      <h1 class="logo" @click="goToPostList">📝 ThinkNote</h1>
+      <h1 class="logo">📝 ThinkNote</h1>
       <div class="header-actions">
         <button v-if="!isLoggedIn" @click="goToUserLogin">로그인</button>
         <button v-else @click="logout">로그아웃</button>
@@ -135,7 +135,6 @@ export default {
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
 }
 .header-actions button:hover {
   background: #18314c;
