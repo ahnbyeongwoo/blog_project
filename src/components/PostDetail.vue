@@ -1,51 +1,35 @@
-<template>
-  <!--글 상세-->
-  <div class="navbar">
-    <header>
-      <h1>
-        <router-link to="/" class="blog_title">BlogProject</router-link>
-      </h1>
-      <button v-if="!isLoggedIn" class="logout-button" @click="goToUserLogin">
-        로그인
-      </button>
-      <button v-else class="logout-button" @click="logout">로그아웃</button>
+<template><!--글 상세-->
+  <div class="thinknote-detail-wrap">
+    <header class="thinknote-detail-header">
+      <h1 class="logo" @click="goToHome">thinknote</h1>
     </header>
-  </div>
-  <div class="container">
-    <div class="post-detail"><!--게시글 데이터가 있을 경우 표시-->
-      <div v-if="post.title">
-        <h1>{{ post.title }}</h1>
-        <p><strong>글쓴이:</strong> {{ post.name }}</p>
-        <p>
-          <strong>작성일:</strong>
-          {{
-            post.created_at ? formatDate(post.created_at) : "작성일 정보 없음"
-          }}
-        </p>
-        <p><strong>조회수:</strong> {{ post.views }}</p>
-        <div v-html="post.content"></div><!-- 글 내용을 HTML로 렌더링 -->
-      </div>
-      <div class="button-container"><!-- 작성자만 표시된 수정, 삭제 버튼 -->
-        <button v-if="post.email === currentUserId" @click="editPost" class="edit-btn">수정</button><!-- 작성자가 맞으면 수정 -->
-        <button v-if="post.email === currentUserId" @click="deletePost" class="delete-btn">삭제</button>
-      </div>
+    <main>
+      <article class="detail-article">
+        <div class="detail-meta">
+          <span>{{ formatDate(post.created_at) }}</span>
+          <span v-if="post.category">/ {{ post.category }}</span>
+          <span v-if="post.name">/ {{ post.name }}</span>
+        </div>
+        <h2 class="detail-title">{{ post.title }}</h2>
+        <div v-if="post.thumbnail" class="detail-img-wrap">
+          <img :src="post.thumbnail" alt="썸네일" class="detail-img" />
+        </div>
+        <div class="detail-content" v-html="post.content"></div>
+      </article>
 
-      <div class="comments-section"><!-- 댓글 섹션 -->
-        <h3>댓글 {{ post.commentCount }}</h3><!-- 댓글 개수 -->
-        <form @submit.prevent="addComment">
+      <!-- 댓글 영역 (기능 그대로) -->
+      <section class="comments-section">
+        <h3>댓글 {{ post.commentCount }}</h3>
+        <form @submit.prevent="addComment" class="comment-form">
           <textarea v-model="newComment" placeholder="댓글을 작성하시오" required></textarea>
           <button type="submit">댓글 작성</button>
         </form>
-
         <div class="comments-list">
           <div v-for="comment in comments" :key="comment.id" class="comment-item">
-            <p>{{ comment.content }}</p><!-- 댓글 내용 -->
-
+            <p>{{ comment.content }}</p>
             <div class="comment-footer">
-              <small>작성자 : {{ comment.username }} |
-                {{ comment.createdAt }}</small>
-
-              <button @click="toggleLike(comment.id)" class="like-button"><!-- 댓글 좋아요 버튼 -->
+              <small>작성자 : {{ comment.username }} | {{ comment.createdAt }}</small>
+              <button @click="toggleLike(comment.id)" class="like-button">
                 <span>{{ comment.isLiked ? '❤️' : '🤍' }}</span> {{ comment.likesCount }}
               </button>
               <img v-if="comment.userId === currentUserId" src="@/assets/delete-comment.jpg" alt="삭제"
@@ -53,8 +37,8 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   </div>
 </template>
 
@@ -326,208 +310,206 @@ export default {
   },
 };
 </script>
-
 <style scoped>
-.container {
-  /*전체 컨테이너*/
-  width: 95%;
-  max-width: 1200px;
-  margin: 0 auto;
-  /* 컨테이너를 수평 중앙에 배치 */
-  display: flex;
-  /* 플렉스 박스 사용 */
-  justify-content: center;
-  margin-top: 50px;
+.thinknote-detail-wrap {
+  background: #fff;
+  min-height: 100vh;
+  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.blog_title {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 20px;
-  font-weight: bold;
-  /* 굵은 글씨체 */
-  margin: 0;
-  text-decoration: none;
-  /* 밑줄 제거 */
-  color: black;
-}
-
-
-.logout-button {
-  /* 로그아웃 버튼 */
-  background-color: #007bff;
-  color: white;
-  border: none;
-  /* 테두리 없음 */
-  border-radius: 5px;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 10px;
-  cursor: pointer;
-  /* 클릭 가능한 커서 표시 */
-  padding: 5px 16px;
-}
-
-.post-detail {
+.thinknote-detail-header {
   width: 100%;
-  max-width: 1200px;
-  /* 최대 너비 설정 */
-  background-color: #f9f9f9;
-  /* 흰색 배경 */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-}
-
-p {
-  font-size: 16px;
-  margin: 10px 0;
-}
-
-div {
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-.container {
-  background-color: #aba6a6;
-  /* 회색 배경 */
-  padding: 20px;
-  border-radius: 10px;
-}
-
-
-.button-container {
-  /* 버튼 스타일 */
+  border-bottom: 1px solid #eee;
+  padding: 28px 0 18px 0;
   display: flex;
-  /* 플렉스 박스 사용으로 버튼 정렬 가능*/
+  align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
+  background: #fff;
 }
-
-.edit-btn,
-.delete-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #222;
+  margin-left: 56px;
   cursor: pointer;
-  font-size: 16px;
+  letter-spacing: -0.5px;
+}
+.detail-nav {
+  display: flex;
+  gap: 28px;
+  font-size: 1rem;
+  color: #444;
+  margin-right: 56px;
+  align-items: center;
+}
+.detail-nav span {
+  cursor: pointer;
+  opacity: 0.85;
+  font-weight: 500;
+  transition: opacity 0.18s;
+}
+.detail-nav span:hover {
+  opacity: 1;
+  color: #111;
+}
+.search-icon {
+  font-size: 1.15rem;
 }
 
-.edit-btn {
-  background-color: #007bff;
-  color: white;
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
 }
-
-.edit-btn:hover {
-  background-color: #0056b3;
+.detail-article {
+  background: #fff;
+  max-width: 700px;
+  width: 100%;
+  margin: 48px 0 0 0;
+  padding: 0 0 48px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0;
+  box-shadow: none;
 }
-
-.delete-btn {
-  background-color: #ff4747;
-  color: white;
+.detail-meta {
+  color: #888;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  width: 100%;
+  text-align: left;
+  font-weight: 400;
+  letter-spacing: -0.5px;
 }
-
-.delete-btn:hover {
-  background-color: #e03e3e;
+.detail-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 36px;
+  width: 100%;
+  text-align: left;
+  line-height: 1.3;
+  letter-spacing: -1px;
 }
-
+.detail-img-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 36px;
+}
+.detail-img {
+  max-width: 480px;
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 2px 16px rgba(60,80,100,0.08);
+}
+.detail-content {
+  width: 100%;
+  font-size: 1.13rem;
+  color: #222;
+  line-height: 2.1;
+  margin-top: 18px;
+  word-break: break-all;
+  letter-spacing: -0.2px;
+}
 .comments-section {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
-}
-
-.comments-list {
-  margin-top: 10px;
-}
-
-.comment-item {
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.comment-item p {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.4;
-}
-
-.comment-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 5px;
-  font-size: 14px;
-  color: #666;
-}
-
-/* 댓글 삭제 버튼 스타일 */
-.comment-footer .delete-icon {
-  width: 20px;
-  /* X 이모티콘 너비 */
-  height: 20px;
-  /* X 이모티콘 높이 */
-  cursor: pointer;
-  /* 클릭 가능한 커서 표시 */
-  display: flex;
-  /* 플렉스 박스를 사용하여 정렬 */
-  justify-content: center;
-  /* 가로 중앙 정렬 */
-  align-items: center;
-  /* 세로 중앙 정렬 */
-  background-color: #ff4d4f;
-  /* 배경색 설정 */
-  border-radius: 50%;
-  /* 원형 버튼으로 설정 */
-  border: none;
-  /* 테두리 제거 */
-}
-
-.comment-footer .delete-icon:hover {
-  background-color: #d9363e;
-  /* 호버 시 배경색 변경 */
-}
-
-
-textarea {
+  background: #fff;
+  max-width: 700px;
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  resize: none;
+  margin: 0 auto 60px auto;
+  margin-top: 32px;
+  border-top: 1px solid #eee;
+  padding: 34px 0 0 0;
 }
-
+.comments-section h3 {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 18px;
+}
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.comment-form textarea {
+  resize: none;
+  border: 1.5px solid #eceef1;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  min-height: 60px;
+  background: #f7f8fa;
+}
+.comment-form button {
+  align-self: flex-end;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.comment-form button:hover {
+  background: #444;
+}
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.comment-item {
+  background: #f7f8fa;
+  border-radius: 10px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 4px rgba(60,80,100,0.05);
+}
 .comment-footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 5px;
-  font-size: 14px;
-  color: #666;
+  gap: 14px;
+  font-size: 13px;
+  color: #7a869a;
 }
-
-.comment-footer .like-button {
-  margin-left: auto;
-  /* 좋아요 버튼을 오른쪽 끝으로 */
+.like-button {
+  background: none;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
+  color: #e25555;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  transition: color 0.15s;
+}
+.like-button:hover {
+  color: #b22222;
+}
+.delete-icon {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+@media (max-width: 900px) {
+  .thinknote-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 0 10px 0;
+  }
+  .logo, .detail-nav {
+    margin-left: 18px;
+    margin-right: 0;
+  }
+  .detail-article, .comments-section {
+    max-width: 99vw;
+    padding: 0 6vw;
+  }
 }
 </style>

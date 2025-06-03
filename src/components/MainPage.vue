@@ -154,7 +154,6 @@ export default {
   border-radius: 7px;
   cursor: pointer;
   font-weight: 500;
-  transition: background 0.2s;
 }
 .nav-button:hover {
   background: #49525a;
