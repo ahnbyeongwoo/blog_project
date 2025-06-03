@@ -1,7 +1,7 @@
 <template>
   <div class="thinknote-list-wrap">
     <header class="list-header">
-      <router-link to="/" class="logo" @click="goToHome">thinknote</router-link>
+      <router-link to="/" class="logo" @click="goToHome">📝 ThinkNote</router-link>
     </header>
     <main>
       <div class="list-controls">

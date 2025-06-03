@@ -1,33 +1,34 @@
 <template>
-  <!--글작성 페이지-->
-  <div class="create-post-container">
-    <header>
-      <h1>
-        <router-link to="/" class="blog_title">BlogProject</router-link><!--홈으로 이동-->
-      </h1>
-      <button class="logout-button" @click="logout">로그아웃</button>
+  <div class="create-wrap">
+    <header class="create-header">
+      <router-link to="/" class="logo" @click="goToHome">📝 ThinkNote</router-link>
+      <button class="logout-btn" @click="logout">로그아웃</button>
     </header>
-    <h2 class="create-post-title">글작성</h2>
-    <form @submit.prevent="submitPost" class="post-form">
-      <div class="input-group">
-        <label for="title">제목</label>
-        <input
-          type="text"
-          v-model="title"
-          id="title"
-          placeholder="제목을 입력하세요."
-          required
-        />
+    <main>
+      <div class="create-card">
+        <h2 class="create-title">글작성</h2>
+        <form @submit.prevent="submitPost" class="post-form">
+          <div class="input-group">
+            <label for="title">제목</label>
+            <input
+              type="text"
+              v-model="title"
+              id="title"
+              placeholder="제목을 입력하세요."
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="content">내용</label>
+            <div id="editor"></div>
+          </div>
+          <div class="inputfile">
+            <input type="file" name="boardfile" id="inputFile" />
+          </div>
+          <button type="submit" class="complete-btn">작성 완료</button>
+        </form>
       </div>
-      <div class="input-group">
-        <label for="content">내용</label>
-        <div id="editor"></div>
-      </div>
-      <div class="inputfile"><!--파일 업로드-->
-        <input type="file" name="boardfile" id="inputFile" />
-      </div>
-      <button type="submit" class="complete-button">작성 완료</button>
-    </form>
+    </main>
   </div>
 </template>
 
@@ -46,56 +47,52 @@ export default {
   },
   methods: {
     submitPost() {
-      const currentUser = JSON.parse(localStorage.getItem("currentUser"));//현재 사용자 정보
-
+      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
       if (!currentUser || !currentUser.name || !currentUser.email) {
-        alert.apply("로그인이 필요합니다.");
+        alert("로그인이 필요합니다.");
         this.$router.push("/login");
         return;
-      }//로그인 확인 조건
-
+      }
       this.content = this.editor.root.innerHTML;
-
-      //새로운 글 데이터 작성
       const newPost = {
-        id: Date.now(), //고유 ID
-        name: currentUser.name, //작성자 이름
+        id: Date.now(),
+        name: currentUser.name,
         email: currentUser.email,
-        title: this.title, //글 제목
-        content: this.content, //글 내용
+        title: this.title,
+        content: this.content,
         date: new Date().toISOString(),
-        views: 0, //초기 조회수
+        views: 0,
       };
-
-      axios//서버에 게시글 데이터 전송 post 요청
+      axios
         .post(`${process.env.VUE_APP_API_URL}/create`, newPost)
         .then(() => {
-          this.$router.push("/list");//성공 시 게시글 목록 이동
+          this.$router.push("/list");
         })
         .catch((error) => {
           console.error("게시물 생성 중 오류 발생:", error);
           alert("게시물 생성에 실패했습니다.");
         });
     },
-
     logout() {
-      localStorage.removeItem("user");
+      localStorage.removeItem("currentUser");
       this.$router.push("/login");
+    },
+    goToHome() {
+      this.$router.push("/");
     },
   },
   mounted() {
-    // Quill 초기화
     this.editor = new Quill("#editor", {
-      theme: "snow", // 기본 눈 테마 설정
+      theme: "snow",
       placeholder: "내용을 입력하세요.",
       modules: {
         toolbar: [
-          ["bold", "italic", "underline", "strike"], // 텍스트 꾸미기 옵션 굵게, 기울임, 밑줄, 취소선
-          [{ list: "ordered" }, { list: "bullet" }], // 리스트 옵션
-          ["link", "image"], // 링크와 이미지
-          [{ align: [] }], // 텍스트 정렬
-          [{ size: ["small", false, "large", "huge"] }], // 텍스트 크기
-          [{ color: [] }, { background: [] }], // 글자색과 배경색
+          ["bold", "italic", "underline", "strike"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          ["link", "image"],
+          [{ align: [] }],
+          [{ size: ["small", false, "large", "huge"] }],
+          [{ color: [] }, { background: [] }],
         ],
       },
     });
@@ -104,102 +101,138 @@ export default {
 </script>
 
 <style scoped>
-#editor {
-  height: 400px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
+.create-wrap {
+  min-height: 100vh;
+  background: #f7f8fa;
+  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
-
-.create-post-container {/*전체 작성 페이지 컨테이너 */
-  width: 90%;
-  margin: 50px auto;
-  background-color: #aba6a6;
-  padding: 20px;
-  border-radius: 10px;/* 모서리 둥글게*/
-  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.1);/*그림자 효과 */
-}
-
-.header {
+.create-header {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  padding: 32px 0 18px 0;
+  border-bottom: 1px solid #eee;
+  background: #fff;
 }
-
-.blog_title {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 20px;
-  font-weight: bold;
-  margin: 0;
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #234567;
+  margin-left: 56px;
   text-decoration: none;
-  color: black;
+  letter-spacing: -0.5px;
 }
-
-
-.logout-button {/* 로그아웃 버튼 */
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.logout-btn {
+  margin-right: 56px;
+  background: none;
   border: none;
-  color: black;
-  font-size: 12px;
+  color: #234567;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  padding: 8px 16px;
+  padding: 8px 18px;
+  border-radius: 7px;
 }
-
-
-.create-post-title {/* 글작성 제목 스타일 */
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
+.logout-btn:hover {
+  background: #f0f2f5;
 }
-
-.post-form {
+main {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
 }
-
+.create-card {
+  background: #fff;
+  max-width: 600px;
+  width: 100%;
+  margin: 48px 0 0 0;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(60,80,100,0.09);
+  padding: 40px 36px 32px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.create-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #234567;
+  margin-bottom: 30px;
+  letter-spacing: -1px;
+}
+.post-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 }
-
 .input-group label {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #234567;
+  margin-bottom: 2px;
 }
-
-.input-group input,
-.input-group textarea {
-  /* width: 100%; */
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  /* box-sizing: border-box; */
+.input-group input[type="text"] {
+  padding: 12px 14px;
+  font-size: 1.07rem;
+  border: 1.5px solid #eceef1;
+  border-radius: 8px;
+  background: #f7f8fa;
+  transition: border 0.18s;
 }
-
-.complete-button {
-  width: 120px;
+.input-group input[type="text"]:focus {
+  border: 1.5px solid #234567;
+  outline: none;
+}
+#editor {
+  height: 320px;
+  background: #fff;
+  border: 1.5px solid #eceef1;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 1.05rem;
+}
+.inputfile {
+  margin-top: 4px;
+}
+.inputfile input[type="file"] {
+  font-size: 0.97rem;
+  color: #234567;
+}
+.complete-btn {
+  width: 140px;
   align-self: flex-end;
-  background-color: #007bff;
-  color: white;
+  background: #234567;
+  color: #fff;
   border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 5px;
+  padding: 12px 0;
+  font-size: 1.09rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
 }
-
-.complete-button:hover {
-  background: #0056b3;
+.complete-btn:hover {
+  background: #18314c;
+}
+@media (max-width: 700px) {
+  .create-header {
+    padding: 18px 0 10px 0;
+  }
+  .logo {
+    margin-left: 16px;
+  }
+  .logout-btn {
+    margin-right: 16px;
+  }
+  .create-card {
+    max-width: 98vw;
+    padding: 18px 6vw 18px 6vw;
+  }
 }
 </style>
