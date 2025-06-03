@@ -1,4 +1,4 @@
-<template><!--글 목록-->
+<template>
   <div class="thinknote-list-wrap">
     <header class="list-header">
       <h1 class="logo" @click="goToHome">thinknote</h1>
@@ -13,9 +13,9 @@
           <select v-model="searchType">
             <option value="title">제목</option>
             <option value="content">내용</option>
-            
+            <!-- 필요시 옵션 추가 -->
           </select>
-          <input v-model="searchQuery" placeholder="검색어를 입력하세요" />
+          <input v-model="searchQuery" placeholder="검색어를 입력하세요" @keyup.enter="searchPosts" />
           <button @click="searchPosts">검색</button>
         </div>
         <button class="write-btn" @click="goToCreatePage">글작성</button>
@@ -23,7 +23,7 @@
 
       <section class="post-list">
         <div
-          v-for="post in filteredPosts"
+          v-for="post in paginatedPosts"
           :key="post.id"
           class="post-list-card"
           @click="goToDetail(post.id)"
@@ -34,10 +34,15 @@
             <span class="post-list-views">조회수: {{ post.views }}</span>
           </div>
           <div class="post-list-title">{{ post.title }}</div>
+          <div class="post-list-content" v-html="post.content"></div>
+        </div>
+        <!-- 게시글이 없을 때 안내 메시지 -->
+        <div v-if="paginatedPosts.length === 0" class="no-posts">
+          게시글이 없습니다.
         </div>
       </section>
 
-      <div class="pagination"><!--하단 페이지-->
+      <div class="pagination">
         <button @click="prevPage" :disabled="currentPage === 1">이전</button>
         <span>{{ currentPage }}</span>
         <button @click="nextPage" :disabled="currentPage === totalPages">다음</button>
@@ -47,119 +52,70 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
-  name: "PostList",//컴포넌트 이름
   data() {
     return {
-      posts: [],
-      currentPage: 1,
-      postPerPage: 5,
-      isLoggedIn: !!localStorage.getItem("currentUser"),
-      filterMyPosts: false,
-      searchKeyword: "",
+      posts: [], // 전체 게시글
       searchType: "title",
+      searchQuery: "",
+      showMyPosts: false,
+      currentPage: 1,
+      pageSize: 10,
+      currentUserId: localStorage.getItem("currentUserId"),
     };
   },
-
   computed: {
-    sortedPosts() {//최신순으로 정렬된 게시글 목록 반환함
-      return [...this.posts].sort(
-        (a, b) => new Date(b.created_at) - new Date(a.created_at)//최신순으로 정렬
-      );
+    filteredPosts() {
+      let filtered = this.posts;
+      if (this.showMyPosts && this.currentUserId) {
+        filtered = filtered.filter(post => post.userId == this.currentUserId);
+      }
+      if (this.searchQuery.trim()) {
+        const q = this.searchQuery.trim().toLowerCase();
+        if (this.searchType === "title") {
+          filtered = filtered.filter(post => post.title.toLowerCase().includes(q));
+        } else if (this.searchType === "content") {
+          filtered = filtered.filter(post => post.content.toLowerCase().includes(q));
+        }
+      }
+      return filtered;
     },
-    paginatedPosts() {//현재 페이지에 해당하는 게시글 목록 반환함
-      const startIndex = (this.currentPage - 1) * this.postPerPage;
-      const endIndex = startIndex + this.postPerPage;//시작 인덱스와 끝 인덱스 계산
-      return this.sortedPosts.slice(startIndex, endIndex);//시작 인덱스부터 끝 인덱스까지의 게시글 목록 반환
+    totalPages() {
+      return Math.max(1, Math.ceil(this.filteredPosts.length / this.pageSize));
     },
-    totalPages() {//전체 페이지 수
-      return Math.ceil(this.posts.length / this.postPerPage);
-    },
+    paginatedPosts() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      return this.filteredPosts.slice(start, start + this.pageSize);
+    }
   },
-
+  mounted() {
+    // 실제 API로 교체
+    fetch(`${process.env.VUE_APP_API_URL}/list`)
+      .then(res => res.json())
+      .then(data => { this.posts = data; })
+      .catch(err => console.error(err));
+  },
   methods: {
-    async reloadPosts() {//게시글 목록 다시 불러오기
-      try {
-        const currentUserData = localStorage.getItem("currentUser");
-        const currentUser = currentUserData
-          ? JSON.parse(currentUserData).email
-          : null;
-
-        const response = await axios.get(`${process.env.VUE_APP_API_URL}/list`, {
-          params: {
-            myPostsOnly: this.filterMyPosts ? "true" : "false",
-            currentUserEmail: currentUser,
-          },
-        });
-
-        this.posts = response.data.sort(
-          (a, b) => new Date(b.created_at) - new Date(a.created_at)
-        );
-        this.currentPage = 1;
-
-      } catch (error) {
-        console.error("게시물 불러오기 중 오류 발생:", error);
-      }
-    },
-
-    async searchPosts() {//검색 기능
-      if (!this.searchKeyword.trim()) {
-        alert("검색어를 입력해주세요.");
-        return;
-      }
-
-      try {
-        const response = await axios.get(`${process.env.VUE_APP_API_URL}/api/search`, {
-          params: {
-            type: this.searchType,//검색 타입(제목 또는 작성자)
-            keyword: this.searchKeyword.trim(),
-          },
-        });
-        this.posts = response.data; // 검색 결과를 posts에 저장
-        this.currentPage = 1; // 검색 후 첫 페이지로 초기화
-      } catch (error) {
-        console.error("검색 실패:", error.response?.data?.message || error.message);
-        alert("검색 중 오류가 발생했습니다.");
-      }
-    },
-
-    createPost() {
-      this.$router.push("/create");
-    },
-
-    logout() {
-      localStorage.removeItem("currentUser");
-      this.$router.push("/login");
-    },
-
     formatDate(dateString) {
-      if (!dateString) return "Invalid Date";
-
-      const date = new Date(dateString.replace(" ", "T"));
-      if (isNaN(date.getTime())) return "Invalid Date";
-
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      return `${year}-${month}-${day} ${hours}:${minutes}`;
+      const date = new Date(dateString);
+      return date.toLocaleDateString("ko-KR", {
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit"
+      });
     },
-
-    changePage(page) {
-      this.currentPage = page;
+    goToDetail(id) { this.$router.push(`/detail/${id}`); },
+    goToCreatePage() { this.$router.push("/create"); },
+    goToHome() { this.$router.push("/list"); },
+    searchPosts() {
+      this.currentPage = 1; // 검색시 첫 페이지로 이동
     },
-
-    goToUserLogin() {
-      this.$router.push("/login");
+    prevPage() {
+      if (this.currentPage > 1) this.currentPage--;
     },
-  },
-
-  mounted() {//컴포넌트가 화면에 나타날 때 실행
-    this.reloadPosts();
-  },
+    nextPage() {
+      if (this.currentPage < this.totalPages) this.currentPage++;
+    }
+  }
 };
 </script>
 
@@ -257,6 +213,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  min-height: 180px;
 }
 .post-list-card {
   background: #fff;
@@ -287,6 +244,25 @@ main {
   color: #234567;
   word-break: break-all;
   margin-top: 2px;
+}
+.post-list-content {
+  font-size: 0.97rem;
+  color: #444;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.no-posts {
+  width: 100%;
+  text-align: center;
+  color: #aaa;
+  font-size: 1.08rem;
+  padding: 60px 0 40px 0;
+  background: none;
+  border: none;
 }
 .pagination {
   display: flex;
