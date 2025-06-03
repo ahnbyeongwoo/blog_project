@@ -120,7 +120,6 @@ export default {
   font-weight: 700;
   color: #234567;
   margin-left: 56px;
-  text-decoration: none;
   letter-spacing: -0.5px;
 }
 .logout-btn {
@@ -144,7 +143,7 @@ main {
 }
 .create-card {
   background: #fff;
-  max-width: 600px;
+  max-width: 800px;
   width: 100%;
   margin: 48px 0 0 0;
   border-radius: 18px;
