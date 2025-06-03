@@ -12,16 +12,19 @@
           <span v-if="post.name">/ {{ post.name }}</span>
         </div>
         <h2 class="detail-title">{{ post.title }}</h2>
+        
+        <div class="detail-actions" v-if="isMyPost">
+        <button class="edit-btn" @click="editPost">수정</button>
+        <button class="delete-btn" @click="deletePost">삭제</button>
+      </div>
+
         <div v-if="post.thumbnail" class="detail-img-wrap">
           <img :src="post.thumbnail" alt="썸네일" class="detail-img" />
         </div>
         <div class="detail-content" v-html="post.content"></div>
       </article>
 
-      <div class="detail-actions" v-if="isMyPost">
-        <button class="edit-btn" @click="editPost">수정</button>
-        <button class="delete-btn" @click="deletePost">삭제</button>
-      </div>
+      
 
 
       <!-- 댓글 영역 -->
