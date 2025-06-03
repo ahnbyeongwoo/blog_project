@@ -14,9 +14,9 @@
         <h2 class="detail-title">{{ post.title }}</h2>
 
         <div class="detail-actions" v-if="isMyPost">
-        <button class="edit-btn" @click="editPost">수정</button>
-        <button class="delete-btn" @click="deletePost">삭제</button>
-      </div>
+          <button class="edit-btn" @click="editPost">수정</button>
+          <button class="delete-btn" @click="deletePost">삭제</button>
+        </div>
 
         <div v-if="post.thumbnail" class="detail-img-wrap">
           <img :src="post.thumbnail" alt="썸네일" class="detail-img" />
@@ -24,7 +24,7 @@
         <div class="detail-content" v-html="post.content"></div>
       </article>
 
-      
+
 
 
       <!-- 댓글 영역 -->
@@ -192,23 +192,23 @@ export default {
       }
     },
 
-    async addComment() {//댓글 추가 메서드
+    async addComment() {
       try {
         const storedUser = JSON.parse(localStorage.getItem("currentUser"));
         if (!storedUser || !storedUser.email) {
           throw new Error("사용자 정보가 없습니다.");
         }
-        const response = await axios.post(// 서버에 댓글 작성 요청
-          `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`,//게시글 ID를 전달
+        const response = await axios.post(
+          `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`,
           {
             postId: this.$route.params.id,
             content: this.newComment,
             userEmail: storedUser.email,
           }
         );
-          const createdAt = response.data.createdAt || new Date().toISOString();
-
-        this.comments.push({// 서버에서 반환된 댓글 데이터 추가
+        // 서버에서 createdAt을 반환하지 않으면 프론트에서 생성
+        const createdAt = response.data.createdAt || new Date().toISOString();
+        this.comments.push({
           id: response.data.id,
           userId: response.data.username,
           username: response.data.username,
@@ -217,11 +217,14 @@ export default {
           isLiked: false,
           likesCount: 0,
         });
-
-        this.newComment = "";// 입력 필드 초기화
+        // localStorage에도 저장
+        localStorage.setItem(
+          `comments_${this.$route.params.id}`,
+          JSON.stringify(this.comments)
+        );
+        this.newComment = "";
       } catch (error) {
-        console.error("댓글 작성 실패:", error.response?.data || error.message);
-        alert("댓글 작성에 실패했습니다. 다시 시도해주세요.");
+        alert("댓글 작성에 실패했습니다.");
       }
     },
 
@@ -322,14 +325,18 @@ export default {
     },
   },
   mounted() {//마운트된 후 목록 가져옴
-    this.fetchComments();
+    const savedComments = localStorage.getItem(`comments_${this.$route.params.id}`);
+  if (savedComments) {
+    this.comments = JSON.parse(savedComments);
+  } else {
+    this.fetchComments(); // 서버에서 불러오기
+  }
   },
 };
 </script>
 
 
 <style scoped>
-
 .thinknote-detail-wrap {
   background: #fff;
   min-height: 100vh;
