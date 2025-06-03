@@ -98,72 +98,98 @@ export default {
         this.$router.push("/list");
       }
     },
-    async fetchComments() {
+    async fetchComments() {//댓글 데이터 로드 메서드
       try {
         const response = await axios.get(
           `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`
         );
+
+        // 댓글 목록 초기화 후 서버 데이터 추가
         this.comments = response.data.map((comment) => ({
           id: comment.id,
-          isMyComment: comment.userId === this.currentUserId,
-          createdAt: comment.createdAt
-            ? this.formatDate(comment.createdAt)
-            : this.formatDate(new Date()),
+          userId: comment.userId,
+          username: comment.userId,
+          createdAt: this.formatDate(comment.createdAt),
           content: comment.content,
-          isLiked: false,
-          likesCount: 0,
+          isLiked: false, // 기본값 설정
+          likesCount: 0, // 기본값 설정
         }));
-      } catch (e) {
-        this.comments = [];
+
+
+        for (const comment of this.comments) {// 좋아요 상태와 카운트 추가
+          try {
+            const likeResponse = await axios.get(`/api/comments/${comment.id}/likes`, {
+              params: { userId: this.currentUserId },
+            });
+            comment.isLiked = likeResponse.data.isLiked;
+            comment.likesCount = likeResponse.data.likesCount;
+          } catch (error) {
+            console.error(`좋아요 데이터 가져오기 실패 (댓글 ID: ${comment.id}):`, error.message);
+          }
+        }
+      } catch (error) {
+        console.error("댓글 불러오기 실패:", error.response?.data || error.message);
       }
     },
-    async addComment() {
+
+     async addComment() {//댓글 추가 메서드
       try {
         const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+
         if (!storedUser || !storedUser.email) {
           throw new Error("사용자 정보가 없습니다.");
         }
-        const response = await axios.post(
-          `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`,
+        const response = await axios.post(// 서버에 댓글 작성 요청
+          `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`,//게시글 ID를 전달
           {
             postId: this.$route.params.id,
             content: this.newComment,
             userEmail: storedUser.email,
           }
         );
-        this.comments.push({
+
+        this.comments.push({// 서버에서 반환된 댓글 데이터 추가
           id: response.data.id,
-          userId: response.data.userId || storedUser.email,
-          username: response.data.username || storedUser.name || "익명",
-          createdAt: response.data.createdAt
-            ? this.formatDate(response.data.createdAt)
-            : this.formatDate(new Date()),
+          userId: response.data.username,
+          username: response.data.username,
+          createdAt: this.formatDate(response.data.createdAt),
           content: response.data.content,
           isLiked: false,
           likesCount: 0,
         });
-        this.newComment = "";
+
+        this.newComment = "";// 입력 필드 초기화
       } catch (error) {
-        alert("댓글 작성에 실패했습니다.");
+        console.error("댓글 작성 실패:", error.response?.data || error.message);
+        alert("댓글 작성에 실패했습니다. 다시 시도해주세요.");
       }
     },
-    async deleteComment(commentId) {
-      if (!confirm("정말 이 댓글을 삭제하시겠습니까?")) return;
+
+     async deleteComment(commentId) {//댓글 삭제 메서드
+      alert('정말 이 댓글을 삭제하시겠습니까?');
       try {
+        const token = localStorage.getItem("token");//토큰 가져옴
         const storedUser = JSON.parse(localStorage.getItem("currentUser"));
         if (!storedUser || !storedUser.email) {
           throw new Error("사용자 정보가 없습니다.");
         }
-        await axios.delete(`${process.env.VUE_APP_API_URL}/comments/${commentId}`, {
+        const currentUserEmail = storedUser.email;
+
+        await axios.delete(`${process.env.VUE_APP_API_URL}/comments/${commentId}`, {//서버에서 댓글 삭제 요청 보내기
           headers: {
-            "current-user": storedUser.email,
+            Authorization: `Bearer ${token}`,
+            "current-user": currentUserEmail,
           },
         });
-        this.comments = this.comments.filter((comment) => comment.id !== commentId);
+
+        this.comments = this.comments.filter(//삭제된 댓글 제외하고 다시 렌더링
+          (comment) => comment.id !== commentId//다른 댓글은 유지
+        );
       } catch (error) {
-        alert("댓글 삭제에 실패했습니다.");
+        console.log("댓글 삭제 실패:", error.response?.data || error.message);
       }
     },
+    
     async toggleLike(commentId) {
       const comment = this.comments.find((c) => c.id === commentId);
       if (!comment) return;
