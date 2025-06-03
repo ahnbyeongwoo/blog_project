@@ -76,6 +76,11 @@ export default {
     this.getPostDetail();
     this.fetchComments();
   },
+  mounted(){
+    this.postId = this.$route.params.id;
+    this.currentUserId= localStorage.getItem('userId');
+    this.fetchComments();
+  },
   methods: {
     goToHome() {
       this.$router.push("/");
@@ -100,8 +105,7 @@ export default {
         );
         this.comments = response.data.map((comment) => ({
           id: comment.id,
-          userId: comment.userId || comment.email || "", // 서버에서 userId 또는 email
-          username: comment.username || comment.name || "알 수 없음",
+          isMyComment: comment.userId === this.currentUserId,
           createdAt: comment.createdAt
             ? this.formatDate(comment.createdAt)
             : this.formatDate(new Date()),
