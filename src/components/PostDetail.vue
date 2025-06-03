@@ -18,7 +18,13 @@
         <div class="detail-content" v-html="post.content"></div>
       </article>
 
-      <!-- 댓글 영역 (기능 그대로) -->
+      <div class="detail-actions" v-if="isMyPost">
+  <button class="edit-btn" @click="editPost">수정</button>
+  <button class="delete-btn" @click="deletePost">삭제</button>
+</div>
+
+
+      <!-- 댓글 영역 -->
       <section class="comments-section">
         <h3>댓글 {{ post.commentCount }}</h3>
         <form @submit.prevent="addComment" class="comment-form">
@@ -63,6 +69,16 @@ export default {
       post: {}, // 상세 글 데이터
       isLoggedIn: !!localStorage.getItem("currentUser"),
     };
+  },
+  computed:{
+ isMyPost() {
+      // 이메일 기준으로 내 글인지 판단 (백엔드 구조에 따라 name 등으로도 가능)
+      return (
+        this.currentUser &&
+        this.post &&
+        this.currentUser.email === this.post.email
+      );
+    },
   },
 
   created() {
@@ -415,6 +431,36 @@ main {
   margin-top: 18px;
   word-break: break-all;
   letter-spacing: -0.2px;
+}
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+  justify-content: flex-end;
+  width: 100%;
+}
+.edit-btn,
+.delete-btn {
+  padding: 7px 18px;
+  border: none;
+  border-radius: 7px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.edit-btn {
+  background: #234567;
+  color: #fff;
+}
+.edit-btn:hover {
+  background: #18314c;
+}
+.delete-btn {
+  background: #e25555;
+  color: #fff;
+}
+.delete-btn:hover {
+  background: #b22222;
 }
 .comments-section {
   background: #fff;

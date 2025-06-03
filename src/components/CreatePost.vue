@@ -143,7 +143,7 @@ main {
 }
 .create-card {
   background: #fff;
-  max-width: 800px;
+  max-width: 1000px;
   width: 100%;
   margin: 48px 0 0 0;
   border-radius: 18px;
