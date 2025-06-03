@@ -99,96 +99,130 @@ export default {
 
 <style scoped>
 .thinknote-container {
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 30px 20px;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f8f9fb;
-  color: #333;
+  padding: 32px 0 64px 0;
+  background: #f7f8fa;
+  min-height: 100vh;
 }
 
 .thinknote-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 15px;
+  padding: 0 32px 18px 32px;
+  border-bottom: 1.5px solid #e0e3e8;
+  background: #fff;
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 28px;
+  font-weight: 700;
+  color: #234567;
+  letter-spacing: -1px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .header-actions button {
   margin-left: 10px;
-  padding: 8px 14px;
+  padding: 8px 18px;
   border: none;
   border-radius: 8px;
-  background-color: #0056b3;
-  color: white;
-  font-size: 14px;
+  background-color: #234567;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background 0.2s;
 }
 .header-actions button:hover {
-  background-color: #004494;
+  background: #18314c;
 }
 
-/* nav */
 .nav-bar {
-  margin-bottom: 20px;
+  margin: 24px 0 12px 0;
+  padding: 0 32px;
 }
 .nav-button {
-  background-color: #6c757d;
-  color: white;
-  padding: 8px 16px;
-  font-size: 14px;
+  background: #6d7a86;
+  color: #fff;
+  padding: 8px 20px;
+  font-size: 15px;
   border: none;
-  border-radius: 8px;
+  border-radius: 7px;
   cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
 }
 .nav-button:hover {
-  background-color: #5a6268;
+  background: #49525a;
 }
 
+/* 게시글 카드 그리드 */
 .post-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
-  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  padding: 0 32px;
 }
 
+/* 카드 스타일 */
 .post-card {
-  background-color: white;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease-in-out;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(60,80,100,0.07);
+  padding: 28px 24px 22px 24px;
   cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.18s;
+  border: 1.5px solid #eceef1;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .post-card:hover {
-  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(60,80,100,0.13);
+  transform: translateY(-4px) scale(1.02);
 }
 
+/* 제목, 메타, 본문 */
 .post-title {
   font-size: 20px;
-  margin-bottom: 10px;
-  font-weight: bold;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #234567;
+  line-height: 1.3;
 }
-
 .post-meta {
   display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 12px;
+  gap: 18px;
+  font-size: 13px;
+  color: #7a869a;
+  margin-bottom: 14px;
+  align-items: center;
+}
+.post-content {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.7;
+  margin-top: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }
 
-.post-content {
-  font-size: 14px;
-  color: #444;
-  line-height: 1.6;
+/* 반응형 */
+@media (max-width: 900px) {
+  .post-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 0 12px;
+  }
+  .thinknote-header, .nav-bar {
+    padding: 0 12px;
+  }
 }
 </style>
