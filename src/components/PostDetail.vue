@@ -195,7 +195,6 @@ export default {
     async addComment() {//댓글 추가 메서드
       try {
         const storedUser = JSON.parse(localStorage.getItem("currentUser"));
-
         if (!storedUser || !storedUser.email) {
           throw new Error("사용자 정보가 없습니다.");
         }
@@ -207,12 +206,13 @@ export default {
             userEmail: storedUser.email,
           }
         );
+          const createdAt = response.data.createdAt || new Date().toISOString();
 
         this.comments.push({// 서버에서 반환된 댓글 데이터 추가
           id: response.data.id,
           userId: response.data.username,
           username: response.data.username,
-          createdAt: this.formatDate(response.data.createdAt),
+          createdAt: this.formatDate(createdAt),
           content: response.data.content,
           isLiked: false,
           likesCount: 0,
@@ -312,6 +312,7 @@ export default {
 
     formatDate(dateString) {
       const date = new Date(dateString);
+      if (isNaN(date.getTime())) return ""; // 잘못된 값이면 빈 문자열 반환
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
