@@ -158,7 +158,10 @@ export default {
   cursor: pointer;
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: #234567;
 }
+
 main {
   max-width: 800px;
   margin: 40px auto 0 auto;
@@ -301,19 +304,5 @@ main {
   color: #bbb;
   background: #f0f1f3;
   cursor: not-allowed;
-}
-@media (max-width: 900px) {
-  .list-header {
-    padding: 18px 0 10px 0;
-  }
-  .logo {
-    margin-left: 18px;
-  }
-  main {
-    padding: 0 4vw;
-  }
-  .post-list-card {
-    padding: 14px 8px 10px 12px;
-  }
 }
 </style>
