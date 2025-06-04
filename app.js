@@ -234,7 +234,7 @@ app.put("/detail/:id", async (req, res) => {
 });
 
 // 좋아요 추가/취소 API
-app.post(`/api/comments/:id/likes`, async (req, res) => {
+app.post("/api/comments/:id/likes", async (req, res) => {
   userId = this.currentUserId;
   const commentId = parseInt(req.params.id, 10);
   const userEmail = req.body.userId;
