@@ -70,7 +70,7 @@ export default {
 
   async mounted() {
     this.postId = this.$route.params.id;
-    this.currentUserId = localStorage.getItem('userId');
+    this.currentUserId = JSON.parse(localStorage.getItem("currentUser") || "null")?.email || null;
     await this.getPostDetail();
     await this.fetchComments();
   },
@@ -99,7 +99,7 @@ export default {
         this.comments = response.data.map((comment) => ({
           id: comment.id,
           userId: comment.userId || comment.userid || comment.username || "",
-          username: comment.username || comment.userId || comment.userid || "알 수 없음",
+          username: comment.username || comment.userId || comment.userid || comment.email || "알 수 없음",
           createdAt: comment.createdAt ? this.formatDate(comment.createdAt) : this.formatDate(new Date()),
           content: comment.content,
           isLiked: false,
@@ -200,6 +200,7 @@ export default {
         console.error("좋아요 토글 실패:", error);
       }
     },
+    
     editPost() {
       if (!this.currentUser) {
         alert("로그인이 필요합니다.");
