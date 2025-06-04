@@ -48,7 +48,7 @@
 
 <script>
 import axios from "axios";
-import { error } from "node:console";
+
 export default {
   data() {
     return {
