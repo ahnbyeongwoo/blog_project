@@ -93,35 +93,35 @@ export default {
       }
     },
     async fetchComments() {
-  try {
-    const response = await axios.get(
-      `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`
-    );
-    this.comments = response.data.map((comment) => ({
-      id: comment.id,
-      userId: comment.userId, // ← 반드시 이메일이 들어와야 함
-      username: comment.username,
-      createdAt: comment.createdAt ? this.formatDate(comment.createdAt) : "",
-      content: comment.content,
-      isLiked: false,
-      likesCount: 0,
-    }));
-    // 좋아요 상태와 카운트 동기화
-    for (const comment of this.comments) {
       try {
-        const likeResponse = await axios.get(`${process.env.VUE_APP_API_URL}/api/comments/${comment.Id}/likes`, {
-          params: { userId: this.currentUserId },
-        });
-        comment.isLiked = likeResponse.data.isLiked;
-        comment.likesCount = likeResponse.data.likesCount;
-      } catch (err){
-        console.error(`댓글 ${comment.id} 좋아요 상태 가져오기 실패:`, err);
+        const response = await axios.get(
+          `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`
+        );
+        this.comments = response.data.map((comment) => ({
+          id: comment.id,
+          userId: comment.userId, // ← 반드시 이메일이 들어와야 함
+          username: comment.username,
+          createdAt: comment.createdAt ? this.formatDate(comment.createdAt) : "",
+          content: comment.content,
+          isLiked: false,
+          likesCount: 0,
+        }));
+        // 좋아요 상태와 카운트 동기화
+        for (const comment of this.comments) {
+          try {
+            const likeResponse = await axios.get(
+              `${process.env.VUE_APP_API_URL}/api/comments/${comment.id}/likes`,{params: { userId: this.currentUserId },
+            });
+            comment.isLiked = likeResponse.data.isLiked;
+            comment.likesCount = likeResponse.data.likesCount;
+          } catch (err) {
+            console.error(`댓글 ${comment.id} 좋아요 상태 가져오기 실패:`, err);
+          }
+        }
+      } catch (error) {
+        this.comments = [];
       }
-    }
-  } catch (error) {
-    this.comments = [];
-  }
-},
+    },
 
 
 
@@ -187,8 +187,8 @@ export default {
       if (!comment) return;
       try {
         const response = await axios.post(`${process.env.VUE_APP_API_URL}/api/comments/${commentId}/likes`, {
-        userId: this.currentUserId,
-      });
+          userId: this.currentUserId,
+        });
         if (response.data.message.includes("추가")) {
           comment.isLiked = true;
           comment.likesCount += 1;
