@@ -316,14 +316,21 @@ app.post("/comments/:postId", async (req, res) => {
       [postId, userEmail, content]
     );
     const selectResult = await pool.query(
-      "SELECT id, postid, userid AS username, content, createdat FROM comments WHERE id = $1",
+      "SELECT id, postid, userid, content, createdat FROM comments WHERE id = $1",
       [insertResult.rows[0].id]
     );
-    res.status(201).json(selectResult.rows[0]);
+    const row = selectResult.rows[0];
+    res.status(201).json({
+      ...row,
+      username: row.userid,
+      userId: row.userid,
+      createdAt: row.createdat
+    });
   } catch (err) {
     res.status(500).json({ message: "댓글 생성 실패", error: err });
   }
 });
+
 
 // 댓글 조회 API
 app.get("/comments/:postId", async (req, res) => {
@@ -336,6 +343,12 @@ app.get("/comments/:postId", async (req, res) => {
       "SELECT id, postid, userid, content, createdat FROM comments WHERE postid = $1",
       [postId]
     );
+    const comments = result.rows.map((row) => ({
+      ...row,
+      username: row.userid,
+      userId: row.userid, // 사용자 ID를 username으로 사용
+      createdAt: row.createdat, // createdat을 createdAt으로 변경
+    }));
     res.status(200).json(result.rows);
   } catch (err) {
     res.status(500).json({ message: "댓글 조회 실패", error: err });
