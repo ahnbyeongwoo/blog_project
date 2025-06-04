@@ -72,14 +72,12 @@ export default {
       );
     },
   },
-  created() {
-    this.getPostDetail();
-    this.fetchComments();
-  },
-  mounted(){
+
+  async mounted(){
     this.postId = this.$route.params.id;
     this.currentUserId= localStorage.getItem('userId');
-    this.fetchComments();
+    await this.getPostDetail();
+    await this.fetchComments();
   },
   methods: {
     goToHome() {
