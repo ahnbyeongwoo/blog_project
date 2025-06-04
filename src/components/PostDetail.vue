@@ -36,13 +36,8 @@
               <button @click="toggleLike(comment.id)" class="like-button">
                 <span>{{ comment.isLiked ? '❤️' : '🤍' }}</span> {{ comment.likesCount }}
               </button>
-              <img
-                v-if="comment.userId === currentUserId"
-                src="@/assets/delete-comment.jpg"
-                alt="삭제"
-                class="delete-icon"
-                @click="deleteComment(comment.id)"
-              >
+              <img v-if="comment.userId === currentUserId" src="@/assets/delete-comment.jpg" alt="삭제"
+                class="delete-icon" @click="deleteComment(comment.id)">
             </div>
           </div>
         </div>
@@ -73,9 +68,9 @@ export default {
     },
   },
 
-  async mounted(){
+  async mounted() {
     this.postId = this.$route.params.id;
-    this.currentUserId= localStorage.getItem('userId');
+    this.currentUserId = localStorage.getItem('userId');
     await this.getPostDetail();
     await this.fetchComments();
   },
@@ -97,73 +92,71 @@ export default {
       }
     },
     async fetchComments() {
-  try {
-    const response = await axios.get(
-      `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`
-    );
-    this.comments = response.data.map((comment) => ({
-      id: comment.id,
-      userId: comment.userId || comment.email || "", // 서버에서 userId 또는 email
-      username: comment.username || comment.name || comment.userId || "알 수 없음",
-      createdAt: comment.createdAt
-        ? this.formatDate(comment.createdAt)
-        : this.formatDate(new Date()),
-      content: comment.content,
-      isLiked: false,
-      likesCount: 0,
-    }));
-
-    // 좋아요 상태와 카운트 동기화
-    for (const comment of this.comments) {
       try {
-        const likeResponse = await axios.get(`/api/comments/${comment.id}/likes`, {
-          params: { userId: this.currentUserId },
-        });
-        comment.isLiked = likeResponse.data.isLiked;
-        comment.likesCount = likeResponse.data.likesCount;
+        const response = await axios.get(
+          `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`
+        );
+        this.comments = response.data.map((comment) => ({
+          id: comment.id,
+          userId: comment.userId || comment.email || "", // 서버에서 userId 또는 email
+          // username: comment.username || comment.name || comment.userId || "알 수 없음",
+          createdAt: comment.createdAt ? this.formatDate(comment.createdAt) : this.formatDate(new Date()),
+          content: comment.content,
+          isLiked: false,
+          likesCount: 0,
+        }));
+
+        // 좋아요 상태와 카운트 동기화
+        for (const comment of this.comments) {
+          try {
+            const likeResponse = await axios.get(`/api/comments/${comment.id}/likes`, {
+              params: { userId: this.currentUserId },
+            });
+            comment.isLiked = likeResponse.data.isLiked;
+            comment.likesCount = likeResponse.data.likesCount;
+          } catch (error) {
+            // 좋아요 정보 없으면 무시
+          }
+        }
       } catch (error) {
-        // 좋아요 정보 없으면 무시
+        this.comments = [];
       }
-    }
-  } catch (error) {
-    this.comments = [];
-  }
-},
+    },
 
 
-     async addComment() {
-  try {
-    const storedUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (!storedUser || !storedUser.email) {
-      throw new Error("사용자 정보가 없습니다.");
-    }
-    const response = await axios.post(
-      `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`,
-      {
-        postId: this.$route.params.id,
-        content: this.newComment,
-        userEmail: storedUser.email,
+    async addComment() {
+      try {
+        const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+        if (!storedUser || !storedUser.email) {
+          throw new Error("사용자 정보가 없습니다.");
+        }
+        const response = await axios.post(
+          `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`,
+          {
+            postId: this.$route.params.id,
+            content: this.newComment,
+            userEmail: storedUser.email,
+          }
+        );
+        this.comments.push({
+          id: response.data.id,
+          userId: response.data.userId || storedUser.email,
+          username: response.data.username || storedUser.name || storedUser.email,
+          createdAt: response.data.createdAt
+            ? this.formatDate(response.data.createdAt)
+            : this.formatDate(new Date()),
+          content: response.data.content,
+          isLiked: false,
+          likesCount: 0,
+        });
+        this.newComment = "";
+      } catch (error) {
+        alert("댓글 작성에 실패했습니다.");
       }
-    );
-    this.comments.push({
-      id: response.data.id,
-      userId: response.data.userId || storedUser.email,
-      username: response.data.username || storedUser.name || storedUser.email,
-      createdAt: response.data.createdAt
-        ? this.formatDate(response.data.createdAt)
-        : this.formatDate(new Date()),
-      content: response.data.content,
-      isLiked: false,
-      likesCount: 0,
-    });
-    this.newComment = "";
-  } catch (error) {
-    alert("댓글 작성에 실패했습니다.");
-  }
-},
+    },
 
 
-     async deleteComment(commentId) {//댓글 삭제 메서드
+    async deleteComment(commentId) {//댓글 삭제 메서드
       alert('정말 이 댓글을 삭제하시겠습니까?');
       try {
         const token = localStorage.getItem("token");//토큰 가져옴
@@ -187,7 +180,7 @@ export default {
         console.log("댓글 삭제 실패:", error.response?.data || error.message);
       }
     },
-    
+
     async toggleLike(commentId) {
       const comment = this.comments.find((c) => c.id === commentId);
       if (!comment) return;
@@ -249,6 +242,7 @@ export default {
   min-height: 100vh;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
+
 .thinknote-detail-header {
   width: 100%;
   border-bottom: 1px solid #eee;
@@ -258,6 +252,7 @@ export default {
   justify-content: space-between;
   background: #fff;
 }
+
 .logo {
   font-size: 28px;
   font-weight: 700;
@@ -268,6 +263,7 @@ export default {
   align-items: center;
   text-decoration: none;
 }
+
 .detail-article {
   background: #fff;
   max-width: 700px;
@@ -280,6 +276,7 @@ export default {
   border-radius: 0;
   box-shadow: none;
 }
+
 .detail-meta {
   color: #888;
   font-size: 1rem;
@@ -289,6 +286,7 @@ export default {
   font-weight: 400;
   letter-spacing: -0.5px;
 }
+
 .detail-title {
   font-size: 2.2rem;
   font-weight: 800;
@@ -299,6 +297,7 @@ export default {
   line-height: 1.3;
   letter-spacing: -1px;
 }
+
 .detail-actions {
   display: flex;
   gap: 10px;
@@ -306,6 +305,7 @@ export default {
   justify-content: flex-end;
   width: 100%;
 }
+
 .edit-btn,
 .delete-btn {
   padding: 7px 18px;
@@ -315,33 +315,40 @@ export default {
   font-weight: 600;
   cursor: pointer;
 }
+
 .edit-btn {
   background: #234567;
   color: #fff;
 }
+
 .edit-btn:hover {
   background: #18314c;
 }
+
 .delete-btn {
   background: #e25555;
   color: #fff;
 }
+
 .delete-btn:hover {
   background: #b22222;
 }
+
 .detail-img-wrap {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 36px;
 }
+
 .detail-img {
   max-width: 480px;
   width: 100%;
   border-radius: 12px;
   object-fit: cover;
-  box-shadow: 0 2px 16px rgba(60,80,100,0.08);
+  box-shadow: 0 2px 16px rgba(60, 80, 100, 0.08);
 }
+
 .detail-content {
   width: 100%;
   font-size: 1.13rem;
@@ -351,6 +358,7 @@ export default {
   word-break: break-all;
   letter-spacing: -0.2px;
 }
+
 .comments-section {
   background: #fff;
   max-width: 700px;
@@ -360,18 +368,21 @@ export default {
   border-top: 1px solid #eee;
   padding: 34px 0 0 0;
 }
+
 .comments-section h3 {
   font-size: 1.12rem;
   font-weight: 700;
   color: #222;
   margin-bottom: 18px;
 }
+
 .comment-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 18px;
 }
+
 .comment-form textarea {
   resize: none;
   border: 1.5px solid #eceef1;
@@ -381,6 +392,7 @@ export default {
   min-height: 60px;
   background: #f7f8fa;
 }
+
 .comment-form button {
   align-self: flex-end;
   background: #222;
@@ -392,20 +404,24 @@ export default {
   font-weight: 600;
   cursor: pointer;
 }
+
 .comment-form button:hover {
   background: #444;
 }
+
 .comments-list {
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
+
 .comment-item {
   background: #f7f8fa;
   border-radius: 10px;
   padding: 14px 16px;
-  box-shadow: 0 1px 4px rgba(60,80,100,0.05);
+  box-shadow: 0 1px 4px rgba(60, 80, 100, 0.05);
 }
+
 .comment-footer {
   display: flex;
   align-items: center;
@@ -413,6 +429,7 @@ export default {
   font-size: 13px;
   color: #7a869a;
 }
+
 .like-button {
   background: none;
   border: none;
@@ -424,9 +441,11 @@ export default {
   gap: 2px;
   transition: color 0.15s;
 }
+
 .like-button:hover {
   color: #b22222;
 }
+
 .delete-icon {
   width: 18px;
   height: 18px;
@@ -434,16 +453,20 @@ export default {
   margin-left: 6px;
   vertical-align: middle;
 }
+
 @media (max-width: 900px) {
   .thinknote-detail-header {
     flex-direction: column;
     align-items: flex-start;
     padding: 18px 0 10px 0;
   }
+
   .logo {
     margin-left: 18px;
   }
-  .detail-article, .comments-section {
+
+  .detail-article,
+  .comments-section {
     max-width: 99vw;
     padding: 0 6vw;
   }
