@@ -98,8 +98,8 @@ export default {
         );
         this.comments = response.data.map((comment) => ({
           id: comment.id,
-          userId: comment.userId || comment.email || "", // 서버에서 userId 또는 email
-          // username: comment.username || comment.name || comment.userId || "알 수 없음",
+          userId: comment.userId || comment.userid || comment.username || "",
+          username: comment.username || comment.userId || comment.userid || "알 수 없음",
           createdAt: comment.createdAt ? this.formatDate(comment.createdAt) : this.formatDate(new Date()),
           content: comment.content,
           isLiked: false,
@@ -119,6 +119,7 @@ export default {
           }
         }
       } catch (error) {
+        console.error("댓글 불러오기 실패:", error);
         this.comments = [];
       }
     },
