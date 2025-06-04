@@ -109,7 +109,7 @@ export default {
     // 좋아요 상태와 카운트 동기화
     for (const comment of this.comments) {
       try {
-        const likeResponse = await axios.get(`/api/comments/${comment.id}/likes`, {
+        const likeResponse = await axios.get(`${process.env.VUE_APP_API_URL}/api/comments/${comment.Id}/likes`, {
           params: { userId: this.currentUserId },
         });
         comment.isLiked = likeResponse.data.isLiked;
@@ -186,9 +186,9 @@ export default {
       const comment = this.comments.find((c) => c.id === commentId);
       if (!comment) return;
       try {
-        const response = await axios.post(`/api/comments/${commentId}/likes`, {
-          userId: this.currentUserId,
-        });
+        const response = await axios.post(`${process.env.VUE_APP_API_URL}/api/comments/${commentId}/likes`, {
+        userId: this.currentUserId,
+      });
         if (response.data.message.includes("추가")) {
           comment.isLiked = true;
           comment.likesCount += 1;
@@ -201,14 +201,6 @@ export default {
       }
     },
 
-    editPost() {
-      if (!this.currentUser) {
-        alert("로그인이 필요합니다.");
-        this.$router.push("/login");
-        return;
-      }
-      this.$router.push(`/edit/${this.post.id}`);
-    },
     async deletePost() {
       if (!confirm("정말 이 글을 삭제하시겠습니까?")) return;
       try {
@@ -223,6 +215,14 @@ export default {
       } catch (error) {
         alert("게시물 삭제에 실패했습니다.");
       }
+    },
+    editPost() {
+      if (!this.currentUser) {
+        alert("로그인이 필요합니다.");
+        this.$router.push("/login");
+        return;
+      }
+      this.$router.push(`/edit/${this.post.id}`);
     },
     formatDate(dateString) {
       const date = new Date(dateString);
