@@ -48,6 +48,7 @@
 
 <script>
 import axios from "axios";
+import { error } from "node:console";
 export default {
   data() {
     return {
@@ -92,37 +93,36 @@ export default {
       }
     },
     async fetchComments() {
+  try {
+    const response = await axios.get(
+      `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`
+    );
+    this.comments = response.data.map((comment) => ({
+      id: comment.id,
+      userId: comment.userId, // ← 반드시 이메일이 들어와야 함
+      username: comment.username,
+      createdAt: comment.createdAt ? this.formatDate(comment.createdAt) : "",
+      content: comment.content,
+      isLiked: false,
+      likesCount: 0,
+    }));
+    // 좋아요 상태와 카운트 동기화
+    for (const comment of this.comments) {
       try {
-        const response = await axios.get(
-          `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`
-        );
-        this.comments = response.data.map((comment) => ({
-          id: comment.id,
-          userId: comment.userId || comment.userid || comment.username || "",
-          username: comment.username || comment.userId || comment.userid || comment.email || "알 수 없음",
-          createdAt: comment.createdAt ? this.formatDate(comment.createdAt) : this.formatDate(new Date()),
-          content: comment.content,
-          isLiked: false,
-          likesCount: 0,
-        }));
-
-        // 좋아요 상태와 카운트 동기화
-        for (const comment of this.comments) {
-          try {
-            const likeResponse = await axios.get(`/api/comments/${comment.id}/likes`, {
-              params: { userId: this.currentUserId },
-            });
-            comment.isLiked = likeResponse.data.isLiked;
-            comment.likesCount = likeResponse.data.likesCount;
-          } catch (error) {
-            // 좋아요 정보 없으면 무시
-          }
-        }
-      } catch (error) {
-        console.error("댓글 불러오기 실패:", error);
-        this.comments = [];
+        const likeResponse = await axios.get(`/api/comments/${comment.id}/likes`, {
+          params: { userId: this.currentUserId },
+        });
+        comment.isLiked = likeResponse.data.isLiked;
+        comment.likesCount = likeResponse.data.likesCount;
+      } catch (err){
+        console.error(`댓글 ${comment.id} 좋아요 상태 가져오기 실패:`, err);
       }
-    },
+    }
+  } catch (error) {
+    this.comments = [];
+  }
+},
+
 
 
     async addComment() {
@@ -200,7 +200,7 @@ export default {
         console.error("좋아요 토글 실패:", error);
       }
     },
-    
+
     editPost() {
       if (!this.currentUser) {
         alert("로그인이 필요합니다.");
