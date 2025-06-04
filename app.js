@@ -234,7 +234,8 @@ app.put("/detail/:id", async (req, res) => {
 });
 
 // 좋아요 추가/취소 API
-app.post("/api/comments/:id/likes", async (req, res) => {
+app.post(`/api/comments/${commentId}/likes`, async (req, res) => {
+  userId = this.currentUserId;
   const commentId = parseInt(req.params.id, 10);
   const userEmail = req.body.userId;
   if (!userEmail) {
@@ -343,17 +344,20 @@ app.get("/comments/:postId", async (req, res) => {
       "SELECT id, postid, userid, content, createdat FROM comments WHERE postid = $1",
       [postId]
     );
-    const comments = result.rows.map((row) => ({
-      ...row,
-      username: row.userid,
-      userId: row.userid, // 사용자 ID를 username으로 사용
-      createdAt: row.createdat, // createdat을 createdAt으로 변경
+    const comments = result.rows.map(row => ({
+      id: row.id,
+      postId: row.postid,
+      userId: row.userid, 
+      username: row.userid,//이메일
+      content: row.content,
+      createdAt: row.createdat
     }));
-    res.status(200).json(result.rows);
+    res.status(200).json(comments);
   } catch (err) {
     res.status(500).json({ message: "댓글 조회 실패", error: err });
   }
 });
+
 
 // 댓글 삭제 API
 app.delete("/comments/:commentId", async (req, res) => {
