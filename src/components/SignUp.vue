@@ -89,11 +89,11 @@ body {
   align-items: center;
 }
 
-.blog-title {
+.blogTitle {
   text-decoration: none;
+  color: #2c3e50;
   font-size: 36px;
   font-weight: bold;
-  color: #2c3e50;
   margin-bottom: 20px;
 }
 
@@ -141,28 +141,21 @@ body {
   outline: none;
 }
 
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.submit-button,
-.signup-button {
-  width: 48%;
-  padding: 10px;
+.signUp-button {
+  width: 100%;
+  padding: 12px;
   font-size: 15px;
   font-weight: 600;
-  color: #fff;
   background-color: #4f46e5;
+  color: #fff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
-.submit-button:hover,
-.signup-button:hover {
+.signUp-button:hover {
   background-color: #4338ca;
 }
+
 </style>
