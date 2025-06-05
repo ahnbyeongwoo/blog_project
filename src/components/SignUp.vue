@@ -127,11 +127,15 @@ body {
 
 #signup-form input[type="text"],
 #signup-form input[type="password"] {
+  width: 100%;
   height: 42px;
   padding: 10px;
-  border-radius: 6px;
   border: 1.5px solid #ccc;
-  transition: border 0.3s, box-shadow 0.3s;
+  border-radius: 6px;
+  background-color: #f8f8f8;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border 0.2s, box-shadow 0.2s;
 }
 
 #signup-form input[type="text"]:focus,
