@@ -1,7 +1,7 @@
 <template>
-  <div class="thinknote-detail-wrap">
-    <header class="thinknote-detail-header">
-      <router-link to="/" class="logo" @click="goToHome">📝 ThinkNote</router-link>
+  <div class="blogroot-detail-wrap">
+    <header class="blogroot-detail-header">
+      <router-link to="/" class="logo" @click="goToHome">📝 BlogRoot</router-link>
     </header>
     
       <article class="detail-article">
@@ -240,13 +240,13 @@ export default {
 </script>
 
 <style scoped>
-.thinknote-detail-wrap {
+.blogroot-detail-wrap {
   background: #fff;
   min-height: 100vh;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
 
-.thinknote-detail-header {
+.blogroot-detail-header {
   width: 100%;
   border-bottom: 1px solid #eee;
   padding: 28px 0 18px 0;
@@ -458,7 +458,7 @@ export default {
 }
 
 @media (max-width: 900px) {
-  .thinknote-detail-header {
+  .blogroot-detail-header {
     flex-direction: column;
     align-items: flex-start;
     padding: 18px 0 10px 0;

@@ -1,7 +1,7 @@
 <template><!--로그인-->
   <div class="container">
     <h1>
-      <router-link to="/" class="blog-title">BlogProject</router-link>
+      <router-link to="/" class="blog-title">📝 BlogRoot</router-link>
     </h1>
     <div class="login-container"><!-- 로그인 폼 컨테이너 -->
       <h2>Login</h2>

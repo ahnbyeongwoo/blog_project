@@ -1,7 +1,7 @@
 <template>
   <div class="create-wrap">
     <header class="create-header">
-      <router-link to="/" class="logo" @click="goToHome">📝 ThinkNote</router-link>
+      <router-link to="/" class="logo" @click="goToHome">📝 BlogRoot</router-link>
       <button class="logout-btn" @click="logout">로그아웃</button>
     </header>
     <main>
@@ -137,7 +137,7 @@ export default {
   border-radius: 7px;
 }
 .logout-btn:hover {
-  background: #f0f2f5;
+  background: #18314c;
 }
 main {
   display: flex;

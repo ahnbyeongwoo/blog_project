@@ -1,7 +1,7 @@
 <template>
-  <div class="thinknote-list-wrap">
+  <div class="blogroot-list-wrap">
     <header class="list-header">
-      <router-link to="/" class="logo" @click="goToHome">📝 ThinkNote</router-link>
+      <router-link to="/" class="logo" @click="goToHome">📝 BlogRoot</router-link>
     </header>
     <main>
       <div class="list-controls">
@@ -12,7 +12,6 @@
         <div class="search-bar">
           <select v-model="searchType">
             <option value="title">제목</option>
-            <option value="author">작성자</option>
           </select>
           <input v-model="searchKeyword" placeholder="검색어를 입력하세요" @keyup.enter="searchPosts" />
           <button @click="searchPosts">검색</button>
@@ -137,7 +136,7 @@ export default {
 </script>
 
 <style scoped>
-.thinknote-list-wrap {
+.blogroot-list-wrap {
   min-height: 100vh;
   background: #f7f8fa;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;

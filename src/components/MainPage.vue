@@ -1,7 +1,7 @@
 <template>
-  <div class="thinknote-container">
-    <header class="thinknote-header">
-      <h1 class="logo">📝 ThinkNote</h1>
+  <div class="blogroot-container">
+    <header class="blogroot-header">
+      <h1 class="logo">📝 BlogRoot</h1>
       <div class="header-actions">
         <button v-if="!isLoggedIn" @click="goToUserLogin">로그인</button>
         <button v-else @click="logout">로그아웃</button>
@@ -23,7 +23,7 @@
       >
         <h2 class="post-title">{{ post.title }}</h2>
         <div class="post-meta">
-          <span>✍ {{ post.name }}</span>
+          <span>작성자 {{ post.name }}</span>
           <span>{{ formatDate(post.created_at) }}</span>
           <span>👁 {{ post.views }}</span>
         </div>
@@ -98,7 +98,7 @@ export default {
 </script>
 
 <style scoped>
-.thinknote-container {
+.blogroot-container {
   max-width: 900px;
   margin: 0 auto;
   padding: 32px 0 64px 0;
@@ -106,7 +106,7 @@ export default {
   min-height: 100vh;
 }
 
-.thinknote-header {
+.blogroot-header {
   display: flex;
   justify-content: space-between;
   align-items: center;

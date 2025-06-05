@@ -1,7 +1,7 @@
 <template>
   <!--회원가입-->
   <div class="container">
-    <router-link to="/" class="blogTitle">BlogProject</router-link>
+    <router-link to="/" class="blogTitle">📝 BlogRoot</router-link>
     <div class="signup-container">
       <h2>회원가입</h2>
       <form @submit.prevent="submitForm" id="signup-form">
