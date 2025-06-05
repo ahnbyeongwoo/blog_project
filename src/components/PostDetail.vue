@@ -3,7 +3,7 @@
     <header class="thinknote-detail-header">
       <router-link to="/" class="logo" @click="goToHome">📝 ThinkNote</router-link>
     </header>
-    <main>
+    
       <article class="detail-article">
         <div class="detail-meta">
           <span>{{ formatDate(post.created_at) }}</span>
@@ -42,7 +42,7 @@
           </div>
         </div>
       </section>
-    </main>
+    
   </div>
 </template>
 
@@ -240,10 +240,6 @@ export default {
 </script>
 
 <style scoped>
-.main{
-  display: flex;
-  justify-content: center;
-}
 .thinknote-detail-wrap {
   background: #fff;
   min-height: 100vh;
