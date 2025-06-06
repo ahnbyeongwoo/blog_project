@@ -164,6 +164,7 @@ export default {
 }
 
 main {
+  height: 100vh;
   padding-top: 84px;
   /* 헤더가 fixed로 고정되어 있기 때문에, 겹치지 않도록 헤더 높이(64px)보다 약간 큰 여백 확보 */
   max-width: 800px;
