@@ -240,13 +240,6 @@ export default {
 </script>
 
 <style scoped>
-html,
-body,
-#app {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
 .blogroot-detail-wrap {
   padding-top: 84px;
   min-height: 100vh;
@@ -259,7 +252,7 @@ body,
   top: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  height: 84px;
   background: #fff;
   z-index: 1000;
   border-bottom: 1px solid #eee;
