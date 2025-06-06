@@ -264,6 +264,7 @@ html, body {
   padding-top: 84px; /* 헤더 높이만큼 */
   background: #fff;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+  height: 100vh;
 }
 
 .logo {
