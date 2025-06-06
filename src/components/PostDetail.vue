@@ -250,7 +250,7 @@ html, body {
   top: 0;
   left: 0;
   right: 0;
-  height: 84px;
+  height: 100%;
   background: #fff;
   z-index: 1000;
   border-bottom: 1px solid #eee;
@@ -261,7 +261,7 @@ html, body {
 }
 
 .blogroot-detail-wrap {
-  padding-top: 84px; /* 헤더 높이만큼 */
+  padding-top: 100%; /* 헤더 높이만큼 */
   background: #fff;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
@@ -467,21 +467,4 @@ html, body {
   vertical-align: middle;
 }
 
-@media (max-width: 900px) {
-  .blogroot-detail-header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 18px 0 10px 0;
-  }
-
-  .logo {
-    margin-left: 18px;
-  }
-
-  .detail-article,
-  .comments-section {
-    max-width: 99vw;
-    padding: 0 6vw;
-  }
-}
 </style>
