@@ -20,12 +20,7 @@
       </div>
 
       <section class="post-list">
-        <div
-          v-for="post in paginatedPosts"
-          :key="post.id"
-          class="post-list-card"
-          @click="goToDetail(post.id)"
-        >
+        <div v-for="post in paginatedPosts" :key="post.id" class="post-list-card" @click="goToDetail(post.id)">
           <div class="post-list-meta">
             <span class="post-list-author">글쓴이: {{ post.name }}</span>
             <span class="post-list-date">{{ formatDate(post.created_at) }}</span>
@@ -137,24 +132,26 @@ export default {
 
 <style scoped>
 .blogroot-list-wrap {
-  min-height: 100vh;
-  background: #f7f8fa;
-  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+  min-height: 100vh; /* 전체 화면 높이만큼 최소 높이를 설정하여 푸터가 떠 있는 것을 방지 */
+  background: #f7f8fa; /* 페이지 배경색을 연한 회색 계열로 설정 */
+  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif; /* 기본 폰트 설정 (영문 + 한글) */
 }
+
 .list-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 64px;
-  background: #fff;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  border-bottom: 1px solid #eee;
+  position: flex; 
+  top: 0; /* 상단 고정 시 기준점 */
+  left: 0; /* 좌측 정렬 기준 */
+  right: 0; /* 우측 정렬 기준 */
+  height: 64px; /* 헤더 높이를 64px로 지정 */
+  background: #fff; /* 헤더 배경색은 흰색 */
+  z-index: 1000; /* 다른 요소들 위에 올라오도록 z-index 설정 */
+  display: flex; /* 내부 요소들을 수평 배치 (로고, 버튼 등) */
+  align-items: center; /* 수직 정렬을 중앙으로 */
+  justify-content: space-between; /* 좌우 공간을 균등하게 배치 */
+  padding: 0 20px; /* 좌우 여백 20px */
+  border-bottom: 1px solid #eee; /* 아래쪽 테두리로 구분선 추가 */
 }
+
 .logo {
   font-size: 28px;
   font-weight: 700;
@@ -167,15 +164,25 @@ export default {
 }
 
 main {
-   padding-top: 84px; /* 헤더 높이보다 약간 더 */
+  padding-top: 84px;
+  /* 헤더가 fixed로 고정되어 있기 때문에, 겹치지 않도록 헤더 높이(64px)보다 약간 큰 여백 확보 */
   max-width: 800px;
+  /* 콘텐츠 최대 너비를 800px로 제한하여 큰 화면에서도 가독성 유지 */
   margin: 0 auto;
+  /* 좌우 마진을 auto로 설정해 중앙 정렬, 위아래는 여백 없음 */
   padding-left: 16px;
+  /* 좌측 내부 여백 16px (반응형에서 콘텐츠가 너무 붙지 않게) */
   padding-right: 16px;
+  /* 우측 내부 여백 16px */
   display: flex;
+  /* 내부 콘텐츠들을 flexbox로 배치 */
   flex-direction: column;
+  /* 세로 방향으로 아이템 정렬 */
   align-items: center;
+  /* 가로축 기준 중앙 정렬 */
+
 }
+
 .list-controls {
   width: 100%;
   display: flex;
@@ -185,6 +192,7 @@ main {
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
 .my-posts-checkbox {
   display: flex;
   align-items: center;
@@ -192,6 +200,7 @@ main {
   color: #333;
   gap: 6px;
 }
+
 .search-bar {
   display: flex;
   align-items: center;
@@ -199,8 +208,9 @@ main {
   background: #fff;
   border-radius: 8px;
   padding: 6px 12px;
-  box-shadow: 0 1px 4px rgba(60,80,100,0.05);
+  box-shadow: 0 1px 4px rgba(60, 80, 100, 0.05);
 }
+
 .search-bar select,
 .search-bar input {
   border: 1px solid #eceef1;
@@ -209,6 +219,7 @@ main {
   font-size: 15px;
   background: #f7f8fa;
 }
+
 .search-bar button {
   background: #234567;
   color: #fff;
@@ -219,9 +230,11 @@ main {
   font-weight: 600;
   cursor: pointer;
 }
+
 .search-bar button:hover {
   background: #18314c;
 }
+
 .write-btn {
   background: #234567;
   color: #fff;
@@ -232,9 +245,11 @@ main {
   font-weight: 600;
   cursor: pointer;
 }
+
 .write-btn:hover {
   background: #18314c;
 }
+
 .post-list {
   width: 100%;
   display: flex;
@@ -242,10 +257,11 @@ main {
   gap: 18px;
   min-height: 180px;
 }
+
 .post-list-card {
   background: #fff;
   border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(60,80,100,0.07);
+  box-shadow: 0 2px 10px rgba(60, 80, 100, 0.07);
   padding: 22px 26px 16px 26px;
   cursor: pointer;
   transition: box-shadow 0.18s, transform 0.18s;
@@ -254,10 +270,12 @@ main {
   flex-direction: column;
   gap: 10px;
 }
+
 .post-list-card:hover {
-  box-shadow: 0 8px 24px rgba(60,80,100,0.13);
+  box-shadow: 0 8px 24px rgba(60, 80, 100, 0.13);
   transform: translateY(-3px) scale(1.01);
 }
+
 .post-list-meta {
   display: flex;
   gap: 16px;
@@ -265,6 +283,7 @@ main {
   color: #7a869a;
   margin-bottom: 2px;
 }
+
 .post-list-title {
   font-size: 1.18rem;
   font-weight: 700;
@@ -272,6 +291,7 @@ main {
   word-break: break-all;
   margin-top: 2px;
 }
+
 .post-list-content {
   font-size: 0.97rem;
   color: #444;
@@ -281,6 +301,7 @@ main {
   display: -webkit-box;
   -webkit-box-orient: vertical;
 }
+
 .no-posts {
   width: 100%;
   text-align: center;
@@ -290,6 +311,7 @@ main {
   background: none;
   border: none;
 }
+
 .pagination {
   display: flex;
   gap: 12px;
@@ -297,6 +319,7 @@ main {
   justify-content: center;
   margin: 36px 0 24px 0;
 }
+
 .pagination button {
   background: #f7f8fa;
   color: #222;
@@ -306,6 +329,7 @@ main {
   font-size: 15px;
   cursor: pointer;
 }
+
 .pagination button:disabled {
   color: #bbb;
   background: #f0f1f3;
