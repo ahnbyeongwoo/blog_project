@@ -245,13 +245,6 @@ html, body {
   padding: 0;
 }
 
-.blogroot-detail-wrap {
-  padding-top: 84px; /* 헤더 높이와 동일하게 */
-  min-height: 100vh;
-  background: #fff;
-  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
-}
-
 .blogroot-detail-header {
   position: fixed;
   top: 0;
@@ -265,6 +258,12 @@ html, body {
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+}
+
+.blogroot-detail-wrap {
+  padding-top: 84px; /* 헤더 높이만큼 */
+  background: #fff;
+  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
 
 .logo {
