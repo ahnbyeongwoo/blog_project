@@ -131,8 +131,9 @@ export default {
 </script>
 
 <style scoped>
+
 .blogroot-list-wrap {
-  min-height: 100vh; /* 전체 화면 높이만큼 최소 높이를 설정하여 푸터가 떠 있는 것을 방지 */
+  /* min-height: 100vh; */
   background: #f7f8fa; /* 페이지 배경색을 연한 회색 계열로 설정 */
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif; /* 기본 폰트 설정 (영문 + 한글) */
 }
@@ -256,7 +257,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  min-height: 180px;
+  /* min-height: 180px; */
 }
 
 .post-list-card {
