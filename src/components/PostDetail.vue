@@ -248,7 +248,7 @@ body,
   padding: 0;
 }
 .blogroot-detail-wrap {
-  padding-top: 64px;
+  padding-top: 84px;
   min-height: 100vh;
   background: #fff;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
