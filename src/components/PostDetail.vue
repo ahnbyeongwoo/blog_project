@@ -248,25 +248,25 @@ body,
   padding: 0;
 }
 .blogroot-detail-wrap {
+  padding-top: 64px;
   min-height: 100vh;
   background: #fff;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
-  padding-top: 64px; /* 헤더 높이와 동일 */
 }
 
 .blogroot-detail-header {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 64px; /* 높이 고정 */
-  z-index: 1000;
+  right: 0;
+  height: 64px;
   background: #fff;
+  z-index: 1000;
   border-bottom: 1px solid #eee;
-  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 20px;
 }
 
 .logo {
