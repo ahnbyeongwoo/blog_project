@@ -265,6 +265,8 @@ html, body {
   background: #fff;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
   height: 100vh;
+  width: 1000px;
+  max-width: 100%;
 }
 
 .logo {

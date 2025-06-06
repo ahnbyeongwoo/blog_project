@@ -166,12 +166,14 @@ export default {
 
 main {
   height: 100vh;
+  
   /* padding-top: 84px; */
   /* 헤더가 fixed로 고정되어 있기 때문에, 겹치지 않도록 헤더 높이(64px)보다 약간 큰 여백 확보 */
   max-width: 800px;
   /* 콘텐츠 최대 너비를 800px로 제한하여 큰 화면에서도 가독성 유지 */
   margin: 0 auto;
   /* 좌우 마진을 auto로 설정해 중앙 정렬, 위아래는 여백 없음 */
+  padding-top: 84px;
   padding-left: 16px;
   /* 좌측 내부 여백 16px (반응형에서 콘텐츠가 너무 붙지 않게) */
   padding-right: 16px;
