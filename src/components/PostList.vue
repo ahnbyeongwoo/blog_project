@@ -142,7 +142,7 @@ export default {
   top: 0; /* 상단 고정 시 기준점 */
   left: 0; /* 좌측 정렬 기준 */
   right: 0; /* 우측 정렬 기준 */
-  height: 64px; /* 헤더 높이를 64px로 지정 */
+  height: 84px; /* 헤더 높이를 64px로 지정 */
   background: #fff; /* 헤더 배경색은 흰색 */
   z-index: 1000; /* 다른 요소들 위에 올라오도록 z-index 설정 */
   display: flex; /* 내부 요소들을 수평 배치 (로고, 버튼 등) */
