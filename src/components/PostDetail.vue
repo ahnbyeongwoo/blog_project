@@ -240,10 +240,18 @@ export default {
 </script>
 
 <style scoped>
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 .blogroot-detail-wrap {
   background: #fff;
   min-height: 100vh;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+  padding-top: 80px;
 }
 
 .blogroot-detail-header {
