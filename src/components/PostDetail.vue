@@ -280,7 +280,7 @@ html, body {
 
 .detail-article {
   background: #fff;
-  max-width: 700px;/* 최대 너비를 700px로 제한 */
+  max-width: 1000px;/* 최대 너비를 700px로 제한 */
   width: 100%;/* 너비를 부모 요소의 100%로 설정 */
   margin: 48px auto 0 auto;/* 위쪽 48px, 아래쪽 0, 좌우 중앙 정렬 */
   padding: 0 0 48px 0;/* 아래쪽에만 48px 패딩을 주고, 나머지는 0 */
@@ -375,7 +375,7 @@ html, body {
 
 .comments-section {
   background: #fff;
-  max-width: 700px;/*최대 너비 */
+  max-width: 1000px;/*최대 너비 */
   width: 100%;/*너비 부모 기준 100% */
   margin: 0 auto 60px auto;/*위쪽 0 ,중앙 정렬, 아래쪽 60px 마진 */
   margin-top: 32px; /* 위쪽에만 32px 마진 */

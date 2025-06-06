@@ -139,7 +139,7 @@ export default {
 }
 
 .list-header {
-  position: flex; 
+  position: fixed; 
   top: 0; /* 상단 고정 시 기준점 */
   left: 0; /* 좌측 정렬 기준 */
   right: 0; /* 우측 정렬 기준 */
@@ -165,7 +165,7 @@ export default {
 }
 
 main {
-  height: 100vh;
+  /* height: 100vh; */
   padding-top: 84px;
   /* 헤더가 fixed로 고정되어 있기 때문에, 겹치지 않도록 헤더 높이(64px)보다 약간 큰 여백 확보 */
   max-width: 800px;
