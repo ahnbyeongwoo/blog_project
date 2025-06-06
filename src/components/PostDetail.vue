@@ -240,6 +240,11 @@ export default {
 </script>
 
 <style scoped>
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 .blogroot-detail-wrap {
   padding-top: 84px; /* 헤더 높이와 동일하게 */
   min-height: 100vh;
