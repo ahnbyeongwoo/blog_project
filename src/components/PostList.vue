@@ -142,12 +142,18 @@ export default {
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
 .list-header {
-  width: 100%;
-  border-bottom: 1px solid #eee;
-  padding: 28px 0 18px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: #fff;
+  z-index: 1000;
   display: flex;
   align-items: center;
-  background: #fff;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #eee;
 }
 .logo {
   font-size: 28px;
@@ -161,9 +167,11 @@ export default {
 }
 
 main {
+   padding-top: 84px; /* 헤더 높이보다 약간 더 */
   max-width: 800px;
-  margin: 40px auto 0 auto;
-  padding: 0 16px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
