@@ -250,7 +250,7 @@ html, body {
   top: 0;
   left: 0;
   right: 0;
-  height: 100%;
+  height: 84px;
   background: #fff;
   z-index: 1000;
   border-bottom: 1px solid #eee;
@@ -261,7 +261,7 @@ html, body {
 }
 
 .blogroot-detail-wrap {
-  padding-top: 100%; /* 헤더 높이만큼 */
+  padding-top: 84px; /* 헤더 높이만큼 */
   background: #fff;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
