@@ -241,7 +241,7 @@ export default {
 
 <style scoped>
 .blogroot-detail-wrap {
-  padding-top: 84px;
+  padding-top: 84px; /* 헤더 높이와 동일하게 */
   min-height: 100vh;
   background: #fff;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
