@@ -3,7 +3,7 @@
     <header class="list-header">
       <router-link to="/" class="logo" @click="goToHome">📝 BlogRoot</router-link>
     </header>
-    <main>
+   
       <div class="list-controls">
         <div class="my-posts-checkbox">
           <input type="checkbox" v-model="filterMyPosts" id="myPosts" @change="reloadPosts" />
@@ -39,7 +39,7 @@
         <span>{{ currentPage }}</span>
         <button @click="nextPage" :disabled="currentPage === totalPages">다음</button>
       </div>
-    </main>
+    
   </div>
 </template>
 
@@ -131,11 +131,33 @@ export default {
 </script>
 
 <style scoped>
+html, body {
+  margin: 0;
+  padding: 0;
+}
 
 .blogroot-list-wrap {
   /* min-height: 100vh; */
   background: #f7f8fa; /* 페이지 배경색을 연한 회색 계열로 설정 */
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif; /* 기본 폰트 설정 (영문 + 한글) */
+  /* height: 100vh; */
+  /* padding-top: 84px; */
+  /* 헤더가 fixed로 고정되어 있기 때문에, 겹치지 않도록 헤더 높이(64px)보다 약간 큰 여백 확보 */
+  max-width: 800px;
+  /* 콘텐츠 최대 너비를 800px로 제한하여 큰 화면에서도 가독성 유지 */
+  margin: 0 auto;
+  /* 좌우 마진을 auto로 설정해 중앙 정렬, 위아래는 여백 없음 */
+  padding-top: 84px;
+  padding-left: 16px;
+  /* 좌측 내부 여백 16px (반응형에서 콘텐츠가 너무 붙지 않게) */
+  padding-right: 16px;
+  /* 우측 내부 여백 16px */
+  display: flex;
+  /* 내부 콘텐츠들을 flexbox로 배치 */
+  flex-direction: column;
+  /* 세로 방향으로 아이템 정렬 */
+  align-items: center;
+  /* 가로축 기준 중앙 정렬 */
 }
 
 .list-header {
@@ -165,27 +187,8 @@ export default {
   text-decoration: none;
 }
 
-main {
-  /* height: 100vh; */
-  /* padding-top: 84px; */
-  /* 헤더가 fixed로 고정되어 있기 때문에, 겹치지 않도록 헤더 높이(64px)보다 약간 큰 여백 확보 */
-  max-width: 800px;
-  /* 콘텐츠 최대 너비를 800px로 제한하여 큰 화면에서도 가독성 유지 */
-  margin: 0 auto;
-  /* 좌우 마진을 auto로 설정해 중앙 정렬, 위아래는 여백 없음 */
-  padding-top: 84px;
-  padding-left: 16px;
-  /* 좌측 내부 여백 16px (반응형에서 콘텐츠가 너무 붙지 않게) */
-  padding-right: 16px;
-  /* 우측 내부 여백 16px */
-  display: flex;
-  /* 내부 콘텐츠들을 flexbox로 배치 */
-  flex-direction: column;
-  /* 세로 방향으로 아이템 정렬 */
-  align-items: center;
-  /* 가로축 기준 중앙 정렬 */
 
-}
+
 
 .list-controls {
   width: 100%;
