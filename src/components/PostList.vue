@@ -131,12 +131,7 @@ export default {
 </script>
 
 <style scoped>
-html, body {
-  margin: 0;
-  padding: 0;
-  /* height: 100vh; ← 이거 제거하거나 주석처리하세요 */
-  min-height: 100vh; /* ← 이걸로 바꾸는 것이 일반적입니다 */
-}
+
 .blogroot-list-wrap {
   /* min-height: 100vh; */
   background: #f7f8fa; /* 페이지 배경색을 연한 회색 계열로 설정 */
