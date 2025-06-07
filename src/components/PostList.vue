@@ -155,7 +155,7 @@ html, body {
   z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start; /* ✅ 왼쪽 정렬 */
   padding: 0 20px;
   border-bottom: 1px solid #eee;
 }
@@ -169,6 +169,7 @@ html, body {
   display: flex;
   align-items: center;
   text-decoration: none;
+  margin-right: auto; /* ✅ 다른 요소들과 공간을 벌려줌 */
 }
 
 .list-controls {
