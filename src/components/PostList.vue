@@ -137,6 +137,7 @@ html, body {
 }
 
 .blogroot-list-wrap {
+  height: 100vh;
   padding-top: 84px; /* ✅ 헤더 높이만큼 여백을 줘서 헤더 아래 콘텐츠가 가려지지 않도록 함 */
   background: #f7f8fa;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
@@ -169,9 +170,6 @@ html, body {
   align-items: center;
   text-decoration: none;
 }
-
-
-
 
 .list-controls {
   width: 100%;
