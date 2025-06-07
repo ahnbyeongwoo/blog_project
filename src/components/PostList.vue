@@ -131,7 +131,12 @@ export default {
 </script>
 
 <style scoped>
-
+html, body {
+  margin: 0;
+  padding: 0;
+  /* height: 100vh; ← 이거 제거하거나 주석처리하세요 */
+  min-height: 100vh; /* ← 이걸로 바꾸는 것이 일반적입니다 */
+}
 .blogroot-list-wrap {
   /* min-height: 100vh; */
   background: #f7f8fa; /* 페이지 배경색을 연한 회색 계열로 설정 */
@@ -166,7 +171,7 @@ export default {
 }
 
 main {
-  height: 110vh;
+  /* height: 100vh; */
   /* padding-top: 84px; */
   /* 헤더가 fixed로 고정되어 있기 때문에, 겹치지 않도록 헤더 높이(64px)보다 약간 큰 여백 확보 */
   max-width: 800px;
