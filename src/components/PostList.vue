@@ -137,43 +137,26 @@ html, body {
 }
 
 .blogroot-list-wrap {
-  /* min-height: 100vh; */
-  background: #f7f8fa; /* 페이지 배경색을 연한 회색 계열로 설정 */
-  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif; /* 기본 폰트 설정 (영문 + 한글) */
-  /* height: 100vh; */
-  /* padding-top: 84px; */
-  /* 헤더가 fixed로 고정되어 있기 때문에, 겹치지 않도록 헤더 높이(64px)보다 약간 큰 여백 확보 */
+  padding-top: 84px; /* ✅ 헤더 높이만큼 여백을 줘서 헤더 아래 콘텐츠가 가려지지 않도록 함 */
+  background: #f7f8fa;
+  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
   max-width: 800px;
-  /* 콘텐츠 최대 너비를 800px로 제한하여 큰 화면에서도 가독성 유지 */
   margin: 0 auto;
-  /* 좌우 마진을 auto로 설정해 중앙 정렬, 위아래는 여백 없음 */
-  padding-top: 84px;
   padding-left: 16px;
-  /* 좌측 내부 여백 16px (반응형에서 콘텐츠가 너무 붙지 않게) */
   padding-right: 16px;
-  /* 우측 내부 여백 16px */
   display: flex;
-  /* 내부 콘텐츠들을 flexbox로 배치 */
   flex-direction: column;
-  /* 세로 방향으로 아이템 정렬 */
   align-items: center;
-  /* 가로축 기준 중앙 정렬 */
 }
-
 .list-header {
-  /* position: fixed;  */
-  /* height: 100vh; */
-  top: 0; /* 상단 고정 시 기준점 */
-  left: 0; /* 좌측 정렬 기준 */
-  right: 0; /* 우측 정렬 기준 */
-  height: 84px; /* 헤더 높이를 64px로 지정 */
-  background: #fff; /* 헤더 배경색은 흰색 */
-  z-index: 1000; /* 다른 요소들 위에 올라오도록 z-index 설정 */
-  display: flex; /* 내부 요소들을 수평 배치 (로고, 버튼 등) */
-  align-items: center; /* 수직 정렬을 중앙으로 */
-  justify-content: space-between; /* 좌우 공간을 균등하게 배치 */
-  padding: 0 20px; /* 좌우 여백 20px */
-  border-bottom: 1px solid #eee; /* 아래쪽 테두리로 구분선 추가 */
+  height: 84px;
+  background: #fff;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #eee;
 }
 
 .logo {
