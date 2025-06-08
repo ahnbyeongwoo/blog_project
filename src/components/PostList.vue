@@ -2,7 +2,8 @@
   <div class="blogroot-list-wrap">
     <header class="list-header">
       <router-link to="/" class="logo" @click="goToHome">📝 BlogRoot</router-link>
-
+    </header>
+   
       <div class="list-controls">
         <div class="my-posts-checkbox">
           <input type="checkbox" v-model="filterMyPosts" id="myPosts" @change="reloadPosts" />
@@ -17,9 +18,6 @@
         </div>
         <button class="write-btn" @click="goToCreatePage">글작성</button>
       </div>
-    </header>
-   
-      
 
       <section class="post-list">
         <div v-for="post in paginatedPosts" :key="post.id" class="post-list-card" @click="goToDetail(post.id)">
