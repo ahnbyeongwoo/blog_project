@@ -287,7 +287,7 @@ html, body {
   max-width: 1000px;/* 최대 너비를 700px로 제한 */
   width: 100%;/* 너비를 부모 요소의 100%로 설정 */
   margin: 48px auto 0 auto;/* 위쪽 48px, 아래쪽 0, 좌우 중앙 정렬 */
-  padding: 0 0 48px 0;/* 아래쪽에만 48px 패딩을 주고, 나머지는 0 */
+  padding: 0 16px 48px 16px;/* 아래쪽에만 48px 패딩을 주고, 나머지는 0 */
   display: flex;/* Flexbox 레이아웃 사용 */
   flex-direction: column;/* 자식 요소들을 세로로 배치 */
   align-items: center;/* 가로 방향 정렬을 중앙으로 설정 */
@@ -379,12 +379,13 @@ html, body {
 
 .comments-section {
   background: #fff;
-  max-width: 1000px;/*최대 너비 */
-  width: 100%;/*너비 부모 기준 100% */
-  margin: 0 auto 60px auto;/*위쪽 0 ,중앙 정렬, 아래쪽 60px 마진 */
-  margin-top: 32px; /* 위쪽에만 32px 마진 */
-  border-top: 1px solid #eee; /* 위쪽에만 테두리 */
-  padding: 34px 0 0 0;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto 60px auto;
+  margin-top: 32px;
+  border-top: 1px solid #eee;
+  padding: 34px 16px 0 16px; /* ✅ 좌우 패딩 추가 */
+  box-sizing: border-box;    /* ✅ 패딩 포함한 너비 계산 */
 }
 
 .comments-section h3 {
