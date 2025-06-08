@@ -1,4 +1,4 @@
-<template>
+<template><!--목록 페이지-->
   <div class="blogroot-list-wrap">
     <header class="list-header">
       <router-link to="/" class="logo" @click="goToHome">📝 BlogRoot</router-link>
@@ -55,10 +55,10 @@ export default {
     };
   },
   computed: {
-    totalPages() {
-      return Math.max(1, Math.ceil(this.posts.length / this.pageSize));
+    totalPages() {// 전체 페이지 수 계산
+      return Math.max(1, Math.ceil(this.posts.length / this.pageSize));// 게시물 수가 0인 경우 최소 1페이지로 설정
     },
-    paginatedPosts() {
+    paginatedPosts() {// 현재 페이지에 해당하는 게시물 목록을 반환
       const start = (this.currentPage - 1) * this.pageSize;
       return this.posts.slice(start, start + this.pageSize);
     },
@@ -69,7 +69,7 @@ export default {
     this.reloadPosts();
   },
   methods: {
-    async reloadPosts() {
+    async reloadPosts() {//목록 새로 불러옴
       try {
         const currentUserEmail = this.currentUser ? this.currentUser.email : null;
         const response = await axios.get(`${process.env.VUE_APP_API_URL}/list`, {

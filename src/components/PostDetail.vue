@@ -1,9 +1,10 @@
-<template>
+<template><!--글 상세 페이지-->
   <div class="blogroot-detail-wrap">
     <header class="blogroot-detail-header">
       <router-link to="/" class="logo" @click="goToHome">📝 BlogRoot</router-link>
     </header>
 
+    <!--게시글 상세 여역-->
     <article class="detail-article">
       <div class="detail-meta">
         <span>{{ formatDate(post.created_at) }}</span>
@@ -58,13 +59,13 @@ export default {
     return {
       post: {},
       comments: [],
-      newComment: "",
+      newComment: "",//새 댓글 입력값
       currentUser: JSON.parse(localStorage.getItem("currentUser") || "null"),
       currentUserId: JSON.parse(localStorage.getItem("currentUser") || "null")?.email || null,
     };
   },
   computed: {
-    isMyPost() {
+    isMyPost() {//내가 쓴 글인지 확인하는 프로퍼티
       return (
         this.currentUser &&
         this.post &&
@@ -74,16 +75,17 @@ export default {
   },
 
   async mounted() {
+    //컴포넌트 마운트될 때 게시글 ID와 현재 사용자 ID를 가져옴
     this.postId = this.$route.params.id;
     this.currentUserId = JSON.parse(localStorage.getItem("currentUser") || "null")?.email || null;
     await this.getPostDetail();
-    await this.fetchComments();
+    await this.fetchComments();//댓글 목록 가져오기
   },
   methods: {
     goToHome() {
       this.$router.push("/");
     },
-    async getPostDetail() {
+    async getPostDetail() {//게시글 상세 정보
       const postId = parseInt(this.$route.params.id);
       if (isNaN(postId)) {
         this.$router.push("/list");
@@ -96,7 +98,7 @@ export default {
         this.$router.push("/list");
       }
     },
-    async fetchComments() {
+    async fetchComments() {//댓글 목록 가져오기, 댓글 좋아요 동기화
       try {
         const response = await axios.get(
           `${process.env.VUE_APP_API_URL}/comments/${this.$route.params.id}`
@@ -127,10 +129,7 @@ export default {
         this.comments = [];
       }
     },
-
-
-
-    async addComment() {
+    async addComment() {//댓글 작성
       try {
         const storedUser = JSON.parse(localStorage.getItem("currentUser"));
         if (!storedUser || !storedUser.email) {
@@ -144,9 +143,9 @@ export default {
             userEmail: storedUser.email,
           }
         );
-        this.comments.push({
+        this.comments.push({//새 댓글 추가
           id: response.data.id,
-          userId: response.data.userId || storedUser.email,
+          userId: response.data.userId || storedUser.email, 
           username: response.data.username || storedUser.name || storedUser.email,
           createdAt: response.data.createdAt
             ? this.formatDate(response.data.createdAt)
@@ -187,7 +186,7 @@ export default {
       }
     },
 
-    async toggleLike(commentId) {
+    async toggleLike(commentId) {//댓글 좋아요 토글
       const comment = this.comments.find((c) => c.id === commentId);
       if (!comment) return;
       try {
@@ -250,7 +249,7 @@ body {
   padding: 0;
 }
 
-.blogroot-detail-header {
+.blogroot-detail-header {/* 상단 고정 헤더, 로고 */
   position: fixed;
   top: 0;
   left: 0;
@@ -276,7 +275,7 @@ body {
   text-decoration: none;
 }
 
-.blogroot-detail-wrap {
+.blogroot-detail-wrap {/* 전체 감싸기, 헤더 본문 댓글 */
   padding-top: 84px;
   /* 헤더 높이만큼 */
   background: #fff;
@@ -286,7 +285,7 @@ body {
   max-width: 100%;
 }
 
-.detail-article {
+.detail-article {/* 게시글 상세 카드(제목, 수정, 이미지, 본문) */
   background: #fff;
   max-width: 1000px;
   width: 100%;
@@ -299,7 +298,7 @@ body {
   box-shadow: none;
 }
 
-.detail-meta {
+.detail-meta {/* 작성일, 카테고리, 정보 */
   color: #888;
   font-size: 1rem;
   margin-bottom: 12px;
@@ -320,7 +319,7 @@ body {
   letter-spacing: -1px;
 }
 
-.detail-actions {
+.detail-actions {/* 내가 쓴 글만 보이는 버튼 */
   display: flex;
   gap: 10px;
   margin-bottom: 18px;
@@ -381,7 +380,7 @@ body {
   letter-spacing: -0.2px;
 }
 
-.comments-section {
+.comments-section {/* 댓글 전체 영역 */
   background: #fff;
   max-width: 1000px;
   width: 100%;
@@ -406,7 +405,7 @@ body {
   margin-bottom: 18px;
 }
 
-.comment-form textarea {
+.comment-form textarea {/* 댓글 입력창 */
   resize: none;
   border: 1.5px solid #eceef1;
   border-radius: 8px;

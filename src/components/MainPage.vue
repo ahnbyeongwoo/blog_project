@@ -1,4 +1,4 @@
-<template>
+<template><!--메인 페이지-->
   <div class="blogroot-container">
     <header class="blogroot-header">
       <h1 class="logo">📝 BlogRoot</h1>
@@ -9,11 +9,11 @@
       </div>
     </header>
 
-    <!-- 목록 버튼 추가 -->
+    <!-- 전체 글 목록 버튼 추가 -->
     <nav class="nav-bar">
       <button class="nav-button" @click="goToPostList">📄 전체 글 목록 보기</button>
     </nav>
-
+    <!--조회수 카드 그리드 2개 기준-->
     <main class="post-grid">
       <div
         v-for="post in sortedPost"
@@ -43,21 +43,20 @@ export default {
     };
   },
   computed: {
-    sortedPost() {
+    sortedPost() {//글 2개를 조회수 기준으로 정렬하여 메인페이지 출력
       return [...this.posts].sort((a, b) => b.views - a.views).slice(0, 2);
     },
   },
-  mounted() {
-    fetch(`${process.env.VUE_APP_API_URL}/list`)
-      .then((res) => res.json())
-      .then((data) => {
-        this.posts = data;
-      })
+  mounted() {// 메인 페이지 로드 시 글 목록을 가져옴
+    fetch(`${process.env.VUE_APP_API_URL}/list`).then((res) => res.json())
+    .then((data) => {
+      this.posts = data;
+    })
       .catch((err) => console.error(err));
 
-    window.addEventListener("storage", this.syncLoginState);
+    window.addEventListener("storage", this.syncLoginState);//스토리지 변경 감지 
   },
-  beforeUnmount() {
+  beforeUnmount() {//컴포넌트가 제거되기 전에 이벤트 제거
     window.removeEventListener("storage", this.syncLoginState);
   },
   methods: {
@@ -66,7 +65,7 @@ export default {
       this.isLoggedIn = false;
       alert("로그아웃 되었습니다.");
     },
-    syncLoginState(event) {
+    syncLoginState(event) {//스토리지 변경 감지-> 다른탭에서 로그인 동기화함
       if (event.key === "currentUser") {
         this.isLoggedIn = !!localStorage.getItem("currentUser");
       }
@@ -98,7 +97,7 @@ export default {
 </script>
 
 <style scoped>
-.blogroot-container {
+.blogroot-container {/* 전체 페이지 감싸기*/
   max-width: 900px;
   margin: 0 auto;
   padding: 32px 0 64px 0;
@@ -125,7 +124,7 @@ export default {
   align-items: center;
 }
 
-.header-actions button {
+.header-actions button {/* 로그인, 로그아웃, 글작성 버튼*/
   margin-left: 10px;
   padding: 8px 18px;
   border: none;
@@ -140,7 +139,7 @@ export default {
   background: #18314c;
 }
 
-.nav-bar {
+.nav-bar {/* 글 목록*/
   margin: 24px 0 12px 0;
   padding: 0 32px;
 }

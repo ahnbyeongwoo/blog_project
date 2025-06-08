@@ -1,4 +1,4 @@
-<template>
+<template><!--글 수정 페이지-->
   <div class="create-wrap">
     <header class="create-header">
       <router-link to="/" class="logo" @click="goToHome">📝 BlogRoot</router-link>
@@ -46,14 +46,15 @@ export default {
     return {
       title: "",
       content: "",
-      postId: null,
+      postId: null, //수정할 게시글의 id
     };
   },
   methods: {
+    // URL 파라미터에서 게시글 ID 가져오기
     async loadPostData() {
       const postId = parseInt(this.$route.params.id);
       this.postId = postId;
-      try {
+      try {//서버에서 게시글 상세 정보 가져오기
         const response = await axios.get(`${process.env.VUE_APP_API_URL}/detail/${postId}`);
         const post = response.data.post;
         this.title = post.title;
@@ -66,7 +67,7 @@ export default {
         this.$router.push("/list");
       }
     },
-    async submitPost() {
+    async submitPost() {//수정 완료시 실행
       const currentUser = JSON.parse(localStorage.getItem("currentUser"));
       if (!currentUser) {
         alert("로그인이 필요합니다.");
@@ -125,7 +126,7 @@ export default {
 </script>
 
 <style scoped>
-.create-header {
+.create-header {/*상단 고정 헤더 */
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 56px;
@@ -172,7 +173,7 @@ main {
   flex-direction: column;
   align-items: center;
 }
-.create-card {
+.create-card {/* 글쓰기 카드 */
   background: #fff;
   max-width: 1000px;
   width: 100%;

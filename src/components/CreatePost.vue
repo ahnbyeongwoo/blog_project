@@ -1,10 +1,11 @@
-<template>
-  <div class="create-wrap">
+<template><!--글 작성 페이지-->
+  <div class="create-wrap"><!--전체 감싸기-->
     <header class="create-header">
       <router-link to="/" class="logo" @click="goToHome">📝 BlogRoot</router-link>
       <button class="logout-btn" @click="logout">로그아웃</button>
     </header>
     <main>
+      <!--글 작성 폼-->
       <div class="create-card">
         <h2 class="create-title">글작성</h2>
         <form @submit.prevent="submitPost" class="post-form">
@@ -46,7 +47,7 @@ export default {
     };
   },
   methods: {
-    submitPost() {
+    submitPost() {//글 작성 완료시 실행
       const currentUser = JSON.parse(localStorage.getItem("currentUser"));
       if (!currentUser || !currentUser.name || !currentUser.email) {
         alert("로그인이 필요합니다.");
@@ -101,7 +102,7 @@ export default {
 </script>
 
 <style scoped>
-.create-header {
+.create-header {/*로고, 로그아웃*/
   position: fixed;
   top: 0; left: 0; right: 0;
   height: 56px;
@@ -113,7 +114,7 @@ export default {
   padding: 0 32px;
   border-bottom: 1px solid #eee;
 }
-.create-wrap {
+.create-wrap {/*전체 페이지 감싸기, 헤더와 본문*/
   padding-top: 56px; /* 헤더 높이만큼 */
   min-height: 100vh;
   background: #f7f8fa;
@@ -143,12 +144,12 @@ export default {
 .logout-btn:hover {
   background: #18314c;
 }
-main {
+main {/*본문 전체*/
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.create-card {
+.create-card {/*글쓰기 카드, 폼 전체임*/
   background: #fff;
   max-width: 1000px;
   width: 100%;
@@ -160,20 +161,20 @@ main {
   flex-direction: column;
   align-items: center;
 }
-.create-title {
+.create-title {/*글작성 타이틀 부분*/
   font-size: 2rem;
   font-weight: 800;
   color: #234567;
   margin-bottom: 30px;
   letter-spacing: -1px;
 }
-.post-form {
+.post-form {/*입력*/
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
-.input-group {
+.input-group {/*제목, 내용 입력*/
   display: flex;
   flex-direction: column;
   gap: 8px;
