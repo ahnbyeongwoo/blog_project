@@ -150,14 +150,15 @@ html, body {
   align-items: center;
 }
 .list-header {
-  height: 84px;
-  background: #fff;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* ✅ 왼쪽 정렬 */
-  padding: 0 20px;
-  border-bottom: 1px solid #eee;
+  height: 84px; /* 헤더의 높이를 84px로 설정 */
+  background: #fff; /* 배경색은 흰색으로 지정 */
+  z-index: 1000; /* 다른 요소 위에 표시되도록 z-index 설정 */
+  display: flex; /* 내부 요소들을 가로 정렬할 수 있도록 flexbox 사용 */
+  /* align-items: center;  */
+  /* 세로 중앙 정렬 */
+  justify-content: flex-start; /* 내부 요소들을 왼쪽 정렬 (로고 왼쪽 정렬 목적) */
+  padding: 0 20px; /* 좌우 여백 20px */
+  border-bottom: 1px solid #eee; /* 아래쪽에 연한 회색 테두리로 구분선 표시 */
 }
 
 .logo {
