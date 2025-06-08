@@ -125,19 +125,23 @@ export default {
 </script>
 
 <style scoped>
-.create-wrap {
-  min-height: 100vh;
-  background: #f7f8fa;
-  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
-}
 .create-header {
-  width: 100%;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 56px;
+  background: #fff;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 0 18px 0;
+  padding: 0 32px;
   border-bottom: 1px solid #eee;
-  background: #fff;
+}
+.create-wrap {
+  padding-top: 56px; /* 헤더 높이만큼 */
+  min-height: 100vh;
+  background: #f7f8fa;
+  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
 .logo {
   font-size: 28px;
@@ -151,11 +155,11 @@ export default {
 }
 .logout-btn {
   margin-right: 56px;
-  background: none;
+  background-color: #234567;
+  color: #fff;
   border: none;
-  color: #234567;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   padding: 8px 18px;
   border-radius: 7px;
@@ -172,7 +176,7 @@ main {
   background: #fff;
   max-width: 1000px;
   width: 100%;
-  margin: 48px 0 0 0;
+  margin: 84px auto 0 auto; /* 위쪽 여백 줄임 */
   border-radius: 18px;
   box-shadow: 0 2px 16px rgba(60,80,100,0.09);
   padding: 40px 36px 32px 36px;
@@ -264,19 +268,5 @@ main {
 .cancel-btn:hover {
   background: #999;
 }
-@media (max-width: 700px) {
-  .create-header {
-    padding: 18px 0 10px 0;
-  }
-  .logo {
-    margin-left: 16px;
-  }
-  .logout-btn {
-    margin-right: 16px;
-  }
-  .create-card {
-    max-width: 98vw;
-    padding: 18px 6vw 18px 6vw;
-  }
-}
+
 </style>
