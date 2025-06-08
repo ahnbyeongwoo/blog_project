@@ -152,7 +152,7 @@ main {
   background: #fff;
   max-width: 1000px;
   width: 100%;
-  margin: 24px auto 0 auto; /* 위쪽 여백 줄임 */
+  margin: 84px auto 0 auto; /* 위쪽 여백 줄임 */
   border-radius: 18px;
   box-shadow: 0 2px 16px rgba(60,80,100,0.09);
   padding: 40px 36px 32px 36px;
