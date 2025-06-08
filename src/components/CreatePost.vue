@@ -101,21 +101,23 @@ export default {
 </script>
 
 <style scoped>
-.create-wrap {
-  height: 100vh;
-  background: #f7f8fa;
-  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
-}
 .create-header {
-  width: 100%;
-  max-width: 1000px; /* ✅ 리스트/디테일 페이지와 동일하게 */
-  margin: 0 auto;     /* ✅ 가운데 정렬 */
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 56px;
+  background: #fff;
+  z-index: 1000;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 16px 12px 16px; /* ✅ 좌우 padding 추가 */
+  padding: 0 32px;
   border-bottom: 1px solid #eee;
-  background: #fff;
+}
+.create-wrap {
+  padding-top: 56px; /* 헤더 높이만큼 */
+  min-height: 100vh;
+  background: #f7f8fa;
+  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
 .logo {
   font-size: 28px;
@@ -150,7 +152,7 @@ main {
   background: #fff;
   max-width: 1000px;
   width: 100%;
-  margin: 48px 0 0 0;
+  margin: 24px auto 0 auto; /* 위쪽 여백 줄임 */
   border-radius: 18px;
   box-shadow: 0 2px 16px rgba(60,80,100,0.09);
   padding: 40px 36px 32px 36px;
