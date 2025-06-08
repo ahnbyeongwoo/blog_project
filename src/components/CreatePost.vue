@@ -222,19 +222,4 @@ main {
 .complete-btn:hover {
   background: #18314c;
 }
-@media (max-width: 700px) {
-  .create-header {
-    padding: 18px 0 10px 0;
-  }
-  .logo {
-    margin-left: 16px;
-  }
-  .logout-btn {
-    margin-right: 16px;
-  }
-  .create-card {
-    max-width: 98vw;
-    padding: 18px 6vw 18px 6vw;
-  }
-}
 </style>

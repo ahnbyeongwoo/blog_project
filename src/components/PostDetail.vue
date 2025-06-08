@@ -267,6 +267,8 @@ html, body {
   height: 100vh;
   width: 1000px;
   max-width: 100%;
+  padding-left: 16px;   
+  padding-right: 16px;  /* 좌우측 여백 추가 */
 }
 
 .logo {
