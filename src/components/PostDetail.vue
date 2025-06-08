@@ -378,13 +378,14 @@ html, body {
 }
 
 .comments-section {
-  background: #fff;
+   background: #fff;
   max-width: 1000px;
   width: 100%;
-  margin: 0 auto 60px auto;
-  margin-top: 32px;
+  margin: 32px auto 60px auto; /* 가운데 정렬 */
   border-top: 1px solid #eee;
-  box-sizing: border-box;    /* ✅ 패딩 포함한 너비 계산 */
+  box-sizing: border-box;
+  padding-left: 16px; /* ✅ 게시글과 동일하게 좌우 여백 */
+  padding-right: 16px;
 }
 
 .comments-section h3 {
