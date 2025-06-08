@@ -3,36 +3,39 @@
     <header class="blogroot-detail-header">
       <router-link to="/" class="logo" @click="goToHome">📝 BlogRoot</router-link>
     </header>
-    
-      <article class="detail-article">
-        <div class="detail-meta">
-          <span>{{ formatDate(post.created_at) }}</span>
-          <span v-if="post.category">/ {{ post.category }}</span>
-          <span v-if="post.name">/ {{ post.name }}</span>
-        </div>
-        <h2 class="detail-title">{{ post.title }}</h2>
-        <div class="detail-actions" v-if="isMyPost">
-          <button class="edit-btn" @click="editPost">수정</button>
-          <button class="delete-btn" @click="deletePost">삭제</button>
-        </div>
-        <div v-if="post.thumbnail" class="detail-img-wrap">
-          <img :src="post.thumbnail" alt="썸네일" class="detail-img" />
-        </div>
-        <div class="detail-content" v-html="post.content"></div>
-      </article>
 
-       <!-- 댓글 영역 -->
-      <section class="comments-section">
-        <h3>댓글 {{ comments.length }}</h3>
-        <form @submit.prevent="addComment" class="comment-form">
-          <textarea v-model="newComment" placeholder="댓글을 작성하시오" required></textarea>
-          <button type="submit">댓글 작성</button>
-        </form>
-        <div class="comments-list">
-          <div v-for="comment in comments" :key="comment.id" class="comment-item">
-            <p>{{ comment.content }}</p>
-            <div class="comment-footer">
+    <article class="detail-article">
+      <div class="detail-meta">
+        <span>{{ formatDate(post.created_at) }}</span>
+        <span v-if="post.category">/ {{ post.category }}</span>
+        <span v-if="post.name">/ {{ post.name }}</span>
+      </div>
+      <h2 class="detail-title">{{ post.title }}</h2>
+      <div class="detail-actions" v-if="isMyPost">
+        <button class="edit-btn" @click="editPost">수정</button>
+        <button class="delete-btn" @click="deletePost">삭제</button>
+      </div>
+      <div v-if="post.thumbnail" class="detail-img-wrap">
+        <img :src="post.thumbnail" alt="썸네일" class="detail-img" />
+      </div>
+      <div class="detail-content" v-html="post.content"></div>
+    </article>
+
+    <!-- 댓글 영역 -->
+    <section class="comments-section">
+      <h3>댓글 {{ comments.length }}</h3>
+      <form @submit.prevent="addComment" class="comment-form">
+        <textarea v-model="newComment" placeholder="댓글을 작성하시오" required></textarea>
+        <button type="submit">댓글 작성</button>
+      </form>
+      <div class="comments-list">
+        <div v-for="comment in comments" :key="comment.id" class="comment-item">
+          <p>{{ comment.content }}</p>
+          <div class="comment-footer">
+            <div class="comment-meta">
               <small>작성자 : {{ comment.username }} | {{ comment.createdAt }}</small>
+            </div>
+            <div class="comment-actions">
               <button @click="toggleLike(comment.id)" class="like-button">
                 <span>{{ comment.isLiked ? '❤️' : '🤍' }}</span> {{ comment.likesCount }}
               </button>
@@ -41,8 +44,9 @@
             </div>
           </div>
         </div>
-      </section>
-    
+      </div>
+    </section>
+
   </div>
 </template>
 
@@ -111,7 +115,7 @@ export default {
           try {
             const likeResponse = await axios.get(
               `${process.env.VUE_APP_API_URL}/api/comments/${comment.id}/likes`, {
-                params: { userId: this.currentUserId },
+              params: { userId: this.currentUserId },
             });
             comment.isLiked = likeResponse.data.isLiked;
             comment.likesCount = likeResponse.data.likesCount;
@@ -240,7 +244,8 @@ export default {
 </script>
 
 <style scoped>
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -259,6 +264,7 @@ html, body {
   justify-content: space-between;
   padding: 0 20px;
 }
+
 .logo {
   font-size: 28px;
   font-weight: 700;
@@ -271,7 +277,8 @@ html, body {
 }
 
 .blogroot-detail-wrap {
-  padding-top: 84px; /* 헤더 높이만큼 */
+  padding-top: 84px;
+  /* 헤더 높이만큼 */
   background: #fff;
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
   height: 100vh;
@@ -284,7 +291,8 @@ html, body {
   max-width: 1000px;
   width: 100%;
   margin: 48px auto 0 auto;
-  padding: 0 16px 48px 16px; /* ✅ 좌우 여백 동일 */
+  padding: 0 16px 48px 16px;
+  /* ✅ 좌우 여백 동일 */
   display: flex;
   flex-direction: column;
   border-radius: 0;
@@ -380,7 +388,8 @@ html, body {
   margin: 32px auto 60px auto;
   border-top: 1px solid #eee;
   box-sizing: border-box;
-  padding: 0 16px; /* ✅ 동일한 좌우 여백 */
+  padding: 0 16px;
+  /* ✅ 동일한 좌우 여백 */
 }
 
 .comments-section h3 {
@@ -438,12 +447,21 @@ html, body {
 
 .comment-footer {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 14px;
   font-size: 13px;
   color: #7a869a;
+  margin-top: 6px;
 }
-
+.comment-meta{
+  flex: 1;
+  text-align: left;
+}
+.comment-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .like-button {
   background: none;
   border: none;
@@ -467,5 +485,4 @@ html, body {
   margin-left: 6px;
   vertical-align: middle;
 }
-
 </style>
