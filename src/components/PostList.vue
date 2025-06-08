@@ -10,9 +10,6 @@
           <label for="myPosts">내가 쓴 글</label>
         </div>
         <div class="search-bar">
-          <select v-model="searchType">
-            <option value="title">제목</option>
-          </select>
           <input v-model="searchKeyword" placeholder="검색어를 입력하세요" @keyup.enter="searchPosts" />
           <button @click="searchPosts">검색</button>
         </div>
