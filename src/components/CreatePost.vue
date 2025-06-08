@@ -131,11 +131,11 @@ export default {
 }
 .logout-btn {
   margin-right: 56px;
-  background: none;
   border: none;
-  color: #234567;
-  font-size: 1rem;
-  font-weight: 500;
+  background-color: #234567;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   padding: 8px 18px;
   border-radius: 7px;
@@ -152,7 +152,7 @@ main {
   background: #fff;
   max-width: 1000px;
   width: 100%;
-  margin: 24px auto 0 auto; /* 위쪽 여백 줄임 */
+  margin: 16px auto 0 auto; /* 위쪽 여백 줄임 */
   border-radius: 18px;
   box-shadow: 0 2px 16px rgba(60,80,100,0.09);
   padding: 40px 36px 32px 36px;
