@@ -19,10 +19,9 @@
           <img :src="post.thumbnail" alt="썸네일" class="detail-img" />
         </div>
         <div class="detail-content" v-html="post.content"></div>
+      </article>
 
-
-
-        <!-- 댓글 영역 -->
+       <!-- 댓글 영역 -->
       <section class="comments-section">
         <h3>댓글 {{ comments.length }}</h3>
         <form @submit.prevent="addComment" class="comment-form">
@@ -43,9 +42,6 @@
           </div>
         </div>
       </section>
-      </article>
-
-      
     
   </div>
 </template>
@@ -263,18 +259,6 @@ html, body {
   justify-content: space-between;
   padding: 0 20px;
 }
-
-.blogroot-detail-wrap {
-  padding-top: 84px; /* 헤더 높이만큼 */
-  background: #fff;
-  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
-  height: 100vh;
-  width: 1000px;
-  max-width: 100%;
-  padding-left: 16px;   
-  padding-right: 16px;  /* 좌우측 여백 추가 */
-}
-
 .logo {
   font-size: 28px;
   font-weight: 700;
@@ -286,17 +270,25 @@ html, body {
   text-decoration: none;
 }
 
+.blogroot-detail-wrap {
+  padding-top: 84px; /* 헤더 높이만큼 */
+  background: #fff;
+  font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+  height: 100vh;
+  width: 1000px;
+  max-width: 100%;
+}
+
 .detail-article {
   background: #fff;
-  max-width: 1000px;/* 최대 너비를 700px로 제한 */
-  width: 100%;/* 너비를 부모 요소의 100%로 설정 */
-  margin: 48px auto 0 auto;/* 위쪽 48px, 아래쪽 0, 좌우 중앙 정렬 */
-  padding: 0 0 48px 0;/* 아래쪽에만 48px 패딩을 주고, 나머지는 0 */
-  display: flex;/* Flexbox 레이아웃 사용 */
-  flex-direction: column;/* 자식 요소들을 세로로 배치 */
-  align-items: center;/* 가로 방향 정렬을 중앙으로 설정 */
-  border-radius: 0;/* 테두리 모서리를 둥글게 하지 않음 (모서리 없음) */
-  box-shadow: none;/* 그림자 효과 제거 */
+  max-width: 1000px;
+  width: 100%;
+  margin: 48px auto 0 auto;
+  padding: 0 16px 48px 16px; /* ✅ 좌우 여백 동일 */
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .detail-meta {
@@ -382,12 +374,13 @@ html, body {
 }
 
 .comments-section {
-   background: #fff;
+  background: #fff;
   max-width: 1000px;
   width: 100%;
-  margin: 32px auto 60px auto; /* 가운데 정렬 */
+  margin: 32px auto 60px auto;
   border-top: 1px solid #eee;
   box-sizing: border-box;
+  padding: 0 16px; /* ✅ 동일한 좌우 여백 */
 }
 
 .comments-section h3 {
