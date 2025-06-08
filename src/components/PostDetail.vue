@@ -19,9 +19,10 @@
           <img :src="post.thumbnail" alt="썸네일" class="detail-img" />
         </div>
         <div class="detail-content" v-html="post.content"></div>
-      </article>
 
-      <!-- 댓글 영역 -->
+
+
+        <!-- 댓글 영역 -->
       <section class="comments-section">
         <h3>댓글 {{ comments.length }}</h3>
         <form @submit.prevent="addComment" class="comment-form">
@@ -42,6 +43,9 @@
           </div>
         </div>
       </section>
+      </article>
+
+      
     
   </div>
 </template>
@@ -287,11 +291,10 @@ html, body {
   max-width: 1000px;/* 최대 너비를 700px로 제한 */
   width: 100%;/* 너비를 부모 요소의 100%로 설정 */
   margin: 48px auto 0 auto;/* 위쪽 48px, 아래쪽 0, 좌우 중앙 정렬 */
-  padding: 0 16px 48px 16px;/* 아래쪽에만 48px 패딩을 주고, 나머지는 0 */
+  padding: 0 0 48px 0;/* 아래쪽에만 48px 패딩을 주고, 나머지는 0 */
   display: flex;/* Flexbox 레이아웃 사용 */
   flex-direction: column;/* 자식 요소들을 세로로 배치 */
-  /* align-items: center; */
-  /* 가로 방향 정렬을 중앙으로 설정 */
+  align-items: center;/* 가로 방향 정렬을 중앙으로 설정 */
   border-radius: 0;/* 테두리 모서리를 둥글게 하지 않음 (모서리 없음) */
   box-shadow: none;/* 그림자 효과 제거 */
 }
