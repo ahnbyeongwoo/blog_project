@@ -107,11 +107,13 @@ export default {
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
 }
 .create-header {
-  width: 100%;
+   width: 100%;
+  max-width: 1000px; /* ✅ 리스트/디테일 페이지와 동일하게 */
+  margin: 0 auto;     /* ✅ 가운데 정렬 */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 0 18px 0;
+  padding: 32px 16px 18px 16px; /* ✅ 좌우 padding 추가 */
   border-bottom: 1px solid #eee;
   background: #fff;
 }
